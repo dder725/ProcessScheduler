@@ -16,10 +16,10 @@ public class OutputHandler {
 
     public OutputHandler(){ }
 
-    public OutputHandler(State state){
+    public OutputHandler(State state, Graph g){
         finalState = state;
         processorList = finalState.getProcessors();
-        _graph = state.getGraph();
+        _graph = g;
 
     }
 
@@ -52,15 +52,40 @@ public class OutputHandler {
     private String findDpendency(Node child){
         String dpString = "";
         // Find all dependencies of child node
-        List<Dependency> dList = _graph.getLinkEdges().get(child);
-        for(Dependency d : dList){
-            // ensure the child node is the child of that dependency
-            if(d.getChild().getName().equals(child.getName())){
-                String dp = d.getParent().getName()+" -> "+child.getName()+"      [Weight = "+String.valueOf(d.getWeight())+"];\n";
-                dpString = dpString + dp;
-            }
-        }
-        return dpString;
+        Map<Node, List<Dependency>> edges = _graph.getLinkEdges();
+        	
+        	Set<Node> set = edges.keySet();
+        	for(Node n : set) {
+        		
+        		if(n.getName().equals(child.getName())) {
+        /*			System.out.println("========s==========");
+            		System.out.println(n.getName());
+            		System.out.println(child.getName());
+            		System.out.println("========e===========");*/
+        			
+        			// all dependencies of child node
+        			List<Dependency> dList = edges.get(n);
+        			
+        			for(Dependency d : dList){
+                        // ensure the child node is the child of that dependency
+        				
+                        if(d.getChild().getName().equals(child.getName())){
+                        	
+                            String dp = child.getName()+" -> "+d.getChild().getName()+"      [Weight = "+String.valueOf(d.getWeight())+"];\n";
+            
+                            dpString = dpString + dp;
+                            
+                        }
+                        
+                    }
+        			
+        		}
+        	}
+
+        	return dpString;
+        	
+        
+        
 
     }
 

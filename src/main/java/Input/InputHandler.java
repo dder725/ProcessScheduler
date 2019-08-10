@@ -9,7 +9,7 @@ public class InputHandler
 //	Optional argument
 	private String numberOfCores;
 	private Boolean visualise = false;
-	private String outputFileName = "INPUT-output.dot";
+	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
 			this.file = args[0];
 			this.numberOfProcessors = args[1];
@@ -47,6 +47,6 @@ public class InputHandler
 	}
 	
 	public String getOutPutName() {
-		return this.outputFileName;
+		return (System.getProperty("user.dir")+"/"+this.outputFileName);
 	}
 }

@@ -29,7 +29,7 @@ public class TaskToDotFile {
         String processerID = String.valueOf(_task.getProcessorID ());
         String startTime = String.valueOf(_task.getStartTime ());
         String weight = String.valueOf(_task.getNode().getWeight ());
-        format = _task.getNode().getName()+"          [Weight="+weight+",Start="+startTime+",Processor="+processerID+";\n";
+        format = _task.getNode().getName()+"          [Weight="+weight+",Start="+startTime+",Processor="+processerID+"];\n";
 
 
 

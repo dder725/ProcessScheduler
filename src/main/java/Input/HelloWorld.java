@@ -2,7 +2,7 @@ package Input;
 
 import java.io.FileNotFoundException;
 
-import Graph.Graph;
+import Graph.*;
 import Parser.DotFileParser;
 import Schedule.Scheduler;
 import Schedule.State;
@@ -14,12 +14,13 @@ public class HelloWorld {
 
 
 	public static void main(String[] args) {
-		String str = "Nodes_7_OutTree.dot";
-		String str1 = "2";
-		String[] MockInput = new String[2];
-		MockInput[0] = str;
-		MockInput[1] = str1;
-		InputHandler input = new InputHandler(MockInput);
+//		String str = "Nodes_10_Random.dot";
+//		String str1 = "2";
+//		String[] MockInput = new String[2];
+//		MockInput[0] = str;
+//		MockInput[1] = str1;
+//		InputHandler input = new InputHandler(MockInput);
+		InputHandler input = new InputHandler(args);
 		DotFileParser parser = new DotFileParser();
 		System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 		try {
@@ -28,6 +29,10 @@ public class HelloWorld {
 			State finalState = sch.schedule();
 			System.out.println(finalState);
 			System.out.println("The cost of the final state is " +finalState.getCost());
+			Output output = new Output(input);
+			OutputHandler outputHandler = new OutputHandler(finalState,g);
+			String finalOutput = outputHandler.getFinalOutput();
+			output.generateGraph(finalOutput, "dot");
 			//output from here
 			//TODO:transfer from final state to output
 		} catch (FileNotFoundException e) {
@@ -43,11 +48,9 @@ public class HelloWorld {
 //		State finalState = sch.schedule();
 //
 //		//output from here
-//		OutputHandler output = new OutputHandler(finalState);
-//		String finalOutput = output.getFinalOutput();
+
 //		//TODO:transfer from final state to output
-		String finalOutput= "A->B \nC->D";
-		Output.generateGraph(finalOutput, "dot");
+		
 
 
 	}
