@@ -45,6 +45,9 @@ public class State {
         _graph = graph;
     }
 
+    public List<Processor> getProcessors() {
+        return _processors;
+    }
 
     /**
      * takes the number of the processor, find it and then assign a task to its schedule
@@ -186,6 +189,10 @@ public class State {
 
 
         return startTime;
+    }
+
+    public Graph getGraph() {
+        return _graph;
     }
 
     private void getAllTasks(){
