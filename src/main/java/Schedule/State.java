@@ -17,12 +17,9 @@ public class State {
     private List<Node> scheduledNodes = new ArrayList<Node>();
     private List<Task> allTasks = new ArrayList<Task>();
     private  Graph _graph;
-
-
     public State(){
 
     }
-
     /**
      * initialize the first state depends on the number of processors
      * @param _numberOfProcessors
@@ -32,7 +29,6 @@ public class State {
             _processors.add(new Processor(i));
         }
     }
-
     /**
      *
      */
