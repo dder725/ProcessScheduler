@@ -6,7 +6,8 @@ import Graph.Graph;
 import Parser.DotFileParser;
 import Schedule.Scheduler;
 import Schedule.State;
-
+import Output.OutputHandler;
+import Output.Output;
 public class HelloWorld {
 	private Graph graph;
 	private Boolean Done = true ;
@@ -36,6 +37,19 @@ public class HelloWorld {
 			e1.printStackTrace();
 		}
 		
+//		InputHandler input = new InputHandler(args);
+//		//get graph Graph graph = GraphBuilder.getGraph();
+//		Scheduler sch = new Scheduler(graph,input);
+//		State finalState = sch.schedule();
+//
+//		//output from here
+//		OutputHandler output = new OutputHandler(finalState);
+//		String finalOutput = output.getFinalOutput();
+//		//TODO:transfer from final state to output
+		String finalOutput= "A->B \nC->D";
+		Output.generateGraph(finalOutput, "dot");
+
+
 	}
 
 }

@@ -19,12 +19,9 @@ public class State implements Comparable<State>{
     private List<Node> scheduledNodes = new ArrayList<Node>();
     private List<Task> allTasks = new ArrayList<Task>();//never updated
     private  Graph _graph;
-
-
     public State(){
 
     }
-
     /**
      * initialize the first state depends on the number of processors
      * @param _numberOfProcessors
@@ -37,7 +34,6 @@ public class State implements Comparable<State>{
         }
 //        System.out.println(_processors);
     }
-
     /**
      *
      */
@@ -51,8 +47,6 @@ public class State implements Comparable<State>{
     public void setGraph(Graph graph){
         _graph = graph;
     }
-
-
     /**
      * takes the number of the processor, find it and then assign a task to its schedule
      * and we have a new state.
@@ -228,6 +222,10 @@ public class State implements Comparable<State>{
 
 
         return startTime;
+    }
+
+    public Graph getGraph() {
+        return _graph;
     }
 
     private void getAllTasks(){
