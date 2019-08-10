@@ -81,7 +81,11 @@ public class Node {
 
         if(scheduledList.containsAll(this.getParents())){
             return true;
+        }else if(isSourceNode){
+        	return true;
+        }else {
+        	return false;
         }
-        return false;
+        
     }
 }

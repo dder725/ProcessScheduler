@@ -44,6 +44,7 @@ public class State implements Comparable<State>{
     public void initialSchedule(){
     	int startTime = this.calculateTaskStartTime(0,_reachableNodes.get(0));
     	this._processors.get(0).schedule(_reachableNodes.get(0),startTime);
+    	this.scheduledNodes.add(_reachableNodes.get(0));
 
     }
 
@@ -64,6 +65,8 @@ public class State implements Comparable<State>{
         Processor processorToSchedule = _processors.get(idOfProcessor);
         int startTime = this.calculateTaskStartTime(idOfProcessor,nextNodeToSchedule);
         processorToSchedule.schedule(nextNodeToSchedule,startTime);
+        this.scheduledNodes.add(nextNodeToSchedule);
+
     }
 
     /**
@@ -71,10 +74,12 @@ public class State implements Comparable<State>{
      * @param parentState
      */
     public void inheriteFieldValue(State parentState){
-            this._processors = parentState.getProcessors();
-            this.scheduledNodes = parentState.getscheduledNodes();
-            this._allNodes = parentState.getNodes();
-            this._reachableNodes = parentState.getReachableNodes();
+    		Cloner cloner = new Cloner();
+    		State mockParent = cloner.deepClone(parentState);
+            this._processors = mockParent.getProcessors();
+            this.scheduledNodes = mockParent.getscheduledNodes();
+            this._allNodes = mockParent.getNodes();
+            this._reachableNodes = mockParent.getReachableNodes();
     }
     
     
@@ -110,7 +115,6 @@ public class State implements Comparable<State>{
             for(int i = 0; i < _processors.size(); i++) {
                 this._possibleNextState.add(new State(clonedParent, nextNode, i));
             }
-            _reachableNodes.remove(nextNode);
             this.scheduledNodes.add(nextNode);
         }
         return this._possibleNextState;
@@ -121,7 +125,6 @@ public class State implements Comparable<State>{
      * @return 
      */
     public int getCost(){
-
         return this._cost;
     }
 
@@ -138,7 +141,13 @@ public class State implements Comparable<State>{
      * @param graph
      */
     public void initializeReachableNodes(Graph graph) {
+    	
+    	
         this._reachableNodes = graph.getSourceNodes();
+        refreshReachableNodes();
+        /*this._reachableNodes.remove(0);*/
+        
+        
     }
 
     /**
@@ -147,10 +156,11 @@ public class State implements Comparable<State>{
     public void refreshReachableNodes(){
         this._reachableNodes.clear();
         for(Node n:this._allNodes){
-            if(n.isReachable(this.scheduledNodes)){
+            if(n.isReachable(this.scheduledNodes) && !scheduledNodes.contains(n)){
                 this._reachableNodes.add(n);
             }
         }
+        
     }
 
     /**
@@ -180,7 +190,7 @@ public class State implements Comparable<State>{
             }
 
             if (nodesInTheProcessor.containsAll(parentNodes)){
-                startTime = Tasks.get(Tasks.size()).getEndTime();
+                startTime = Tasks.get(Tasks.size()-1).getEndTime();
             } else {
                 List<Node> demo = parentNodes;
                 demo.removeAll(nodesInTheProcessor);

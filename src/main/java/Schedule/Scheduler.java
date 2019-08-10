@@ -50,9 +50,21 @@ public class Scheduler {
     public State schedule(){
     	int i = 0;
         while (!_currentState.existReachablenodes()){
+        	_currentState.refreshReachableNodes();
+
+        	
             State nextState =  this.nextState();
-            System.out.println(i);
             nextState.refreshReachableNodes();
+            System.out.println("============="+i+"===========");
+            System.out.println("The reachableNodes are: ");
+            for(Node n:nextState.getReachableNodes()) {
+            	System.out.println(n.getName());
+            }
+            System.out.println("The scheduleNodes are: ");
+            for(Node n:nextState.getscheduledNodes()) {
+            	System.out.println(n.getName());
+            }
+            System.out.println("=========================");
             i++;
             this._currentState =  nextState;
         }

@@ -13,7 +13,7 @@ public class HelloWorld {
 
 
 	public static void main(String[] args) {
-		String str = "Nodes_10_Random.dot";
+		String str = "Nodes_7_OutTree.dot";
 		String str1 = "2";
 		String[] MockInput = new String[2];
 		MockInput[0] = str;
