@@ -53,7 +53,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>Input.HelloWorld</mainClass>
+                            <mainClass>Input.TaskSchedule</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

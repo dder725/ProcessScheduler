@@ -8,7 +8,7 @@ import Schedule.Scheduler;
 import Schedule.State;
 import Output.OutputHandler;
 import Output.Output;
-public class HelloWorld {
+public class TaskSchedule {
 	private Graph graph;
 	private Boolean Done = true ;
 
@@ -22,13 +22,13 @@ public class HelloWorld {
 //		InputHandler input = new InputHandler(MockInput);
 		InputHandler input = new InputHandler(args);
 		DotFileParser parser = new DotFileParser();
-		System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
+//		System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 		try {
 			Graph g = parser.parseDotFile(System.getProperty("user.dir")+"/"+input.getFilePath());
 			Scheduler sch = new Scheduler(g,input);
 			State finalState = sch.schedule();
-			System.out.println(finalState);
-			System.out.println("The cost of the final state is " +finalState.getCost());
+//			System.out.println(finalState);
+//			System.out.println("The cost of the final state is " +finalState.getCost());
 			Output output = new Output(input);
 			OutputHandler outputHandler = new OutputHandler(finalState,g);
 			String finalOutput = outputHandler.getFinalOutput();
