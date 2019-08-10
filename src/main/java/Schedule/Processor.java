@@ -35,6 +35,7 @@ public class Processor {
         Task newTask = new Task(nextNodeToSchedule, _id, startTime);
         _scheduledTasks.add(newTask);
         _scheduledNodes.add(nextNodeToSchedule);
+        _endTime = newTask.getEndTime();
 
     }
 

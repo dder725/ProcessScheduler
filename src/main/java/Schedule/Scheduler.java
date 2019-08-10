@@ -1,10 +1,11 @@
 package Schedule;
 
-import Graph.Graph;
+import Graph.*;
 import Input.InputHandler;
-import Graph.Node;
-import Graph.Dependency;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class Scheduler {
     public Scheduler(Graph g, InputHandler i){
         _graph = g;
         _numberOfProcessors = i.getNumberOfProcessors();
-        this._currentState = new State(_numberOfProcessors);
+        this._currentState = new State(_numberOfProcessors,g.getNodes(),g);
         this._currentState.initializeReachableNodes(_graph);
         this._currentState.initialSchedule();
     }
@@ -38,10 +39,8 @@ public class Scheduler {
     }
 
     private State getTheBestCostState(List<State> states) {
-        for (int i = 0; i< states.size();i++){
-
-        }
-        return null;
+    	Collections.sort(states);
+        return states.get(0);
     }
 
     /**
@@ -49,12 +48,12 @@ public class Scheduler {
      * @return Valid Schedule
      */
     public State schedule(){
+    	int i = 0;
         while (!_currentState.existReachablenodes()){
-
             State nextState =  this.nextState();
-            //
-
+            System.out.println(i);
             nextState.refreshReachableNodes();
+            i++;
             this._currentState =  nextState;
         }
         return this._currentState;

@@ -1,6 +1,5 @@
 package Input;
 
-import Parser.DotFileParser;
 
 public class InputHandler
 { 
@@ -29,22 +28,25 @@ public class InputHandler
 //					i++;
 				}
 			}
-			try{
-				DotFileParser parser = new DotFileParser();
-			}catch(Exception e){
-
-			}
 
 			
-
-			System.out.println("the input file name is: "+this.file);
-			System.out.println("The number of processor specified is:"+this.numberOfProcessors);
-			System.out.println("The nuberOfCore is: "+ this.numberOfCores);
-			System.out.println("Visualise options is: "+this.visualise);
-			System.out.println("The outputFileName is: "+this.outputFileName);
+//
+//			System.out.println("the input file name is: "+this.file);
+//			System.out.println("The number of processor specified is:"+this.numberOfProcessors);
+//			System.out.println("The nuberOfCore is: "+ this.numberOfCores);
+//			System.out.println("Visualise options is: "+this.visualise);
+//			System.out.println("The outputFileName is: "+this.outputFileName);
 		}
 
 	public int getNumberOfProcessors() {
 			return Integer.parseInt(this.numberOfProcessors);
+	}
+	
+	public String getFilePath() {
+		return this.file;
+	}
+	
+	public String getOutPutName() {
+		return this.outputFileName;
 	}
 }

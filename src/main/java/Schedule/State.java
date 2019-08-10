@@ -8,14 +8,16 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class State {
+import com.rits.cloning.Cloner;
+
+public class State implements Comparable<State>{
     private List<Processor> _processors = new ArrayList<Processor>();
     private List<Node> _reachableNodes = new ArrayList<Node>();
     private List<Node> _allNodes = new ArrayList<Node>();
     private List<State> _possibleNextState = new ArrayList<State>();
     private int _cost;
     private List<Node> scheduledNodes = new ArrayList<Node>();
-    private List<Task> allTasks = new ArrayList<Task>();
+    private List<Task> allTasks = new ArrayList<Task>();//never updated
     private  Graph _graph;
 
 
@@ -27,17 +29,21 @@ public class State {
      * initialize the first state depends on the number of processors
      * @param _numberOfProcessors
      */
-    public State(int _numberOfProcessors){
+    public State(int _numberOfProcessors, List<Node> _allNodes, Graph g){
+    	this._allNodes = _allNodes;
+    	this._graph = g;
         for(int i = 0; i < _numberOfProcessors;i++) {
             _processors.add(new Processor(i));
         }
+//        System.out.println(_processors);
     }
 
     /**
      *
      */
     public void initialSchedule(){
-
+    	int startTime = this.calculateTaskStartTime(0,_reachableNodes.get(0));
+    	this._processors.get(0).schedule(_reachableNodes.get(0),startTime);
 
     }
 
@@ -53,6 +59,8 @@ public class State {
      * @param idOfProcessor
      */
     public State(State parentState, Node nextNodeToSchedule, int idOfProcessor){
+    	this.inheriteFieldValue(parentState);
+//    	System.out.println("id of processor is: "+idOfProcessor);
         Processor processorToSchedule = _processors.get(idOfProcessor);
         int startTime = this.calculateTaskStartTime(idOfProcessor,nextNodeToSchedule);
         processorToSchedule.schedule(nextNodeToSchedule,startTime);
@@ -63,8 +71,29 @@ public class State {
      * @param parentState
      */
     public void inheriteFieldValue(State parentState){
-            this._processors = parentState._processors;
-            this.scheduledNodes = parentState.scheduledNodes;
+            this._processors = parentState.getProcessors();
+            this.scheduledNodes = parentState.getscheduledNodes();
+            this._allNodes = parentState.getNodes();
+            this._reachableNodes = parentState.getReachableNodes();
+    }
+    
+    
+    public List<Processor> getProcessors(){
+		return this._processors;
+    	
+    }
+    
+    public List<Node> getNodes(){
+		return this._allNodes;
+    	
+    }
+    public List<Node> getscheduledNodes(){
+		return this.scheduledNodes;
+    	
+    }
+    
+    public List<Node> getReachableNodes(){
+    	return this._reachableNodes;
     }
 
     /**
@@ -74,10 +103,12 @@ public class State {
      */
     public List<State> getAllPossibleNextStates(Graph g){
         setGraph(g);
+        Cloner cloner=new Cloner();
+        State clonedParent = cloner.deepClone(this);
         this._allNodes = g.getNodes();
         for(Node nextNode:this._reachableNodes) {
             for(int i = 0; i < _processors.size(); i++) {
-                this._possibleNextState.add(new State(this, nextNode, i));
+                this._possibleNextState.add(new State(clonedParent, nextNode, i));
             }
             _reachableNodes.remove(nextNode);
             this.scheduledNodes.add(nextNode);
@@ -123,7 +154,7 @@ public class State {
     }
 
     /**
-     * This method will calculate the start_time for a specified node
+     * This method will calculate the earliest start_time for a specified node
      * @param processorID
      * @param node
      * @return
@@ -139,7 +170,7 @@ public class State {
             return startTime;
         } else if (parentNodes.isEmpty() && !(Tasks.isEmpty())){
             int lastTask = Tasks.size();
-            Task lastScheduledTask = Tasks.get(lastTask);
+            Task lastScheduledTask = Tasks.get(lastTask-1);
             startTime = lastScheduledTask.getEndTime();
         } else if (!(parentNodes.isEmpty()) && !(Tasks.isEmpty())){
             List<Node> nodesInTheProcessor = new ArrayList<Node>();
@@ -180,6 +211,7 @@ public class State {
                     }
 
                 }
+                startTime = leastWaitingTime;
 
             }
         }
@@ -194,6 +226,29 @@ public class State {
         }
         //return allTasks;
     }
+
+
+	public int compareTo(State o) {
+		// TODO Auto-generated method stub
+		int thisCost = this.getCost();
+		int oCost = o.getCost();
+		if(thisCost<oCost) {
+			return -1;
+		}else if(thisCost>oCost) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		for(Task t:allTasks) {
+			str.append(t.getNode().getName());
+		}
+		return str.toString();
+		
+	}
 
 
 }
