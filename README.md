@@ -7,7 +7,7 @@ Implementation of branch-and-bound type algorithm that solves process scheduling
 | Jiaqiu Zhao    | jzha653       |   jzha653        |
 | Daria Derecha  | dder725       |   dder725        |
 | Guangya Zhu    | gzhu282       |   NoMacAlive     |
-| Brian Zhang    |               |                  |
+| Brian Zhang    | bzha841       |   brianzhang310  |
 | Lisa Wang      |zwan940        |  zwan940         |
 
 ## Getting started
