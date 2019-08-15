@@ -29,6 +29,7 @@ class GraphBuilderTest {
 
     /**
      * Test that the graph contains all nodes
+     * test commits
      */
     @org.junit.jupiter.api.Test
     void testAllNodes() {
