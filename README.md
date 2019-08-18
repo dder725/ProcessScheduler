@@ -1,6 +1,6 @@
 # SoftEng306: Project 1 -- ScheME Process Scheduler
 <p align="center">
-  <img src="schemeSmall.png">
+  <img src="schemeWhite.png">
 </p>
 Implementation of branch-and-bound type algorithm that solves process scheduling problem optimally for small input graphs.
 ## Group 9
