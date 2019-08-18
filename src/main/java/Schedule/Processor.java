@@ -3,9 +3,7 @@ package Schedule;
 import Graph.Node;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Processor {
     private final int _id;
@@ -13,10 +11,25 @@ public class Processor {
     private List<Task> _scheduledTasks = new ArrayList<Task>();
     private List<Node> _scheduledNodes = new ArrayList<Node>();
 
-    HashMap<Node,Task> nodeWithTask = new HashMap<Node, Task>();
-
+    /**
+     * This method will create a new processor with specified id
+     * @param i
+     */
     public Processor(int i){
         this._id = i;
+    }
+
+    /**
+     * This method will schedule a node with startTime in a processor and create a new task
+     * which is added in a list of tasks named scheduledTask.
+     * @param nextNodeToSchedule
+     * @param startTime
+     */
+    public void schedule(Node nextNodeToSchedule, int startTime) {
+        Task newTask = new Task(nextNodeToSchedule, _id, startTime);
+        _scheduledTasks.add(newTask);
+        _scheduledNodes.add(nextNodeToSchedule);
+        _endTime = newTask.getEndTime();
     }
 
     /**
@@ -27,24 +40,19 @@ public class Processor {
         return _endTime;
     }
 
-    public List<Task> get_scheduledTasks(){
-        return _scheduledTasks;
-    }
-
-    public void schedule(Node nextNodeToSchedule, int startTime) {
-        Task newTask = new Task(nextNodeToSchedule, _id, startTime);
-        _scheduledTasks.add(newTask);
-        _scheduledNodes.add(nextNodeToSchedule);
-        _endTime = newTask.getEndTime();
-
-    }
-
+    /**
+     * This method will return all scheduled nodes in this processor
+     * @return _scheduledNodes
+     */
     public List<Node> getAllNodes(){
         return _scheduledNodes;
     }
 
+    /**
+     * This method will return all scheduled tasks in this processor
+     * @return
+     */
     public List<Task> getAllTasks(){
         return _scheduledTasks;
     }
-
 }
