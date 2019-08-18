@@ -1,5 +1,10 @@
-# SoftEng306: Project 1 -- Process Scheduler
+# SoftEng306: Project 1 -- ScheME Process Scheduler
+<p align="center">
+  <img src="schemeWhite.png">
+</p>
+
 Implementation of branch-and-bound type algorithm that solves process scheduling problem optimally for small input graphs.
+
 ## Group 9
 
 | Student        | UPI           | GitHub Username  |
@@ -7,7 +12,7 @@ Implementation of branch-and-bound type algorithm that solves process scheduling
 | Jiaqiu Zhao    | jzha653       |   jzha653        |
 | Daria Derecha  | dder725       |   dder725        |
 | Guangya Zhu    | gzhu282       |   NoMacAlive     |
-| Brian Zhang    |               |                  |
+| Brian Zhang    | bzha841       |   brianzhang310  |
 | Lisa Wang      |zwan940        |  zwan940         |
 
 ## Getting started

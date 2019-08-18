@@ -18,8 +18,6 @@ public class Graph {
         }
     }
 
-
-
     /**
      * Get the minimum cost of processing of all tasks excluding the cost of process transfer
      */

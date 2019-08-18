@@ -17,6 +17,10 @@ public class GraphBuilder {
         edges = new HashMap<Node, List<Dependency>>();
     }
 
+    public GraphBuilder() {
+
+    }
+
     /**
      * Add a node to the graph
      *
@@ -53,7 +57,7 @@ public class GraphBuilder {
             parentNode.addChild(nodes.get(childLabel));
             childNode.addParent(parentNode);
         }
-        }
+    }
 
     public Graph createGraph(){
         List<Node> linkedNodes = new LinkedList<Node>();

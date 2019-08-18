@@ -1,31 +1,37 @@
 package Schedule;
 
-import Graph.*;
+import Graph.Graph;
 import Input.InputHandler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class Scheduler {
     private State _currentState;
     private  Graph _graph;
     private int  _numberOfProcessors;
-    //private List<Task> allTasks = new ArrayList<Task>();
-
     /**
      * This method will initialize the current state with numbers of processors and reachable nodes.
      * @param Graph g
      * @param InputHandler i
      */
     public Scheduler(Graph g, InputHandler i){
-        _graph = g;
-        _numberOfProcessors = i.getNumberOfProcessors();
-        this._currentState = new State(_numberOfProcessors,g.getNodes(),g);
-        this._currentState.initializeReachableNodes(_graph);
-        this._currentState.initialSchedule();
+        this._graph = g;
+        this._numberOfProcessors = i.getNumberOfProcessors();
+        this._currentState = new State(this._numberOfProcessors,g.getNodes(),g);
+        this._currentState.initializeReachableNodes(this._graph);
+    }
+
+    /**
+     * This method calculates a valid schedule
+     * @return Valid Schedule
+     */
+    public State schedule(){
+        while (this._currentState.existReachablenodes()){
+            State nextState =  this.nextState();
+            this._currentState =  nextState;
+            this._currentState.refreshReachableNodes();
+        }
+        return this._currentState;
     }
 
     /**
@@ -38,44 +44,23 @@ public class Scheduler {
         return nextState;
     }
 
-    private State getTheBestCostState(List<State> states) {
-    	Collections.sort(states);
-        return states.get(0);
-    }
-
     /**
-     * This method calculates a valid schedule
-     * @return Valid Schedule
+     * This method gets the minimum cost state from a list of states
+     * @param states
+     * @return minimum cost state
      */
-    public State schedule(){
-    	int i = 0;
-        while (!_currentState.existReachablenodes()){
-        	_currentState.refreshReachableNodes();
+    private State getTheBestCostState(List<State> states) {
+        int theEvaluatedCost = Integer.MAX_VALUE;
+        int index = 0;
 
-        	
-            State nextState =  this.nextState();
-            nextState.refreshReachableNodes();
-           // System.out.println("============="+i+"===========");
-           // System.out.println("The reachableNodes are: ");
-            for(Node n:nextState.getReachableNodes()) {
-            	//System.out.println(n.getName());
+        for (int i = 0; i< states.size();i++){
+            Heuristic heuristic = new Heuristic(states.get(i));
+            if (states.get(i).getCost() + heuristic.getCost() < theEvaluatedCost){
+                theEvaluatedCost = states.get(i).getCost() + heuristic.getCost();
+                index = i;
             }
-           // System.out.println("The scheduleNodes are: ");
-            for(Node n:nextState.getscheduledNodes()) {
-            	//System.out.println(n.getName());
-            }
-            //System.out.println("=========================");
-            i++;
-            this._currentState =  nextState;
         }
-        return this._currentState;
+        System.out.println(theEvaluatedCost);
+        return states.get(index);
     }
-
-/*    public Map<Node, List<Dependency>> getLinkEdges(){
-        return _graph.getLinkEdges();
-    }*/
-
-
-
-
 }

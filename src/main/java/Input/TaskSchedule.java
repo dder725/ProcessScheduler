@@ -22,13 +22,14 @@ public class TaskSchedule {
 		InputHandler input = new InputHandler(MockInput);
 		//InputHandler input = new InputHandler(args);
 		DotFileParser parser = new DotFileParser();
-//		System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
+		//System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
+
 		try {
-			Graph g = parser.parseDotFile(System.getProperty("user.dir")+"/"+input.getFilePath());
+			Graph g = parser.parseDotFile("/Users/mingzhezhang/Downloads/Project1-newStartTime/src/main/resources/Nodes_10_Random.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState = sch.schedule();
 //			System.out.println(finalState);
-//			System.out.println("The cost of the final state is " +finalState.getCost());
+			System.out.println("The cost of the final state is " +finalState.getCost());
 			Output output = new Output(input);
 			OutputHandler outputHandler = new OutputHandler(finalState,g);
 			String finalOutput = outputHandler.getFinalOutput();
@@ -41,18 +42,6 @@ public class TaskSchedule {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
-//		InputHandler input = new InputHandler(args);
-//		//get graph Graph graph = GraphBuilder.getGraph();
-//		Scheduler sch = new Scheduler(graph,input);
-//		State finalState = sch.schedule();
-//
-//		//output from here
-
-//		//TODO:transfer from final state to output
-		
-
-
 	}
 
 }
