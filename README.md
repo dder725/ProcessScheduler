@@ -2,7 +2,9 @@
 <p align="center">
   <img src="schemeWhite.png">
 </p>
+
 Implementation of branch-and-bound type algorithm that solves process scheduling problem optimally for small input graphs.
+
 ## Group 9
 
 | Student        | UPI           | GitHub Username  |
