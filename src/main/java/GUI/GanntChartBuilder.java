@@ -102,7 +102,7 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                 if (block != null) {
                     if (block instanceof StackPane) {
                         StackPane region = (StackPane)item.getNode();
-                        region.getChildren().add(label);
+                        //region.getChildren().add(label);
                         if (region.getShape() == null) {
                             ellipse = new Rectangle( getLength( item.getExtraValue()), getBlockHeight());
                         } else if (region.getShape() instanceof Rectangle) {
@@ -111,6 +111,13 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                             return;
                         }
 
+
+                        if (region.getChildren().isEmpty()) {
+                            // add the Task ID to the region
+                            Text id = new Text(" " + getLabel((ExtraData) item.getExtraValue()));
+                            region.getChildren().add(id);
+                            region.setAlignment(Pos.TOP_LEFT);
+                        }
                         ellipse.setWidth( getLength( item.getExtraValue()) * ((getXAxis() instanceof NumberAxis) ? Math.abs(((NumberAxis)getXAxis()).getScale()) : 1));
                         ellipse.setHeight(getBlockHeight() * ((getYAxis() instanceof NumberAxis) ? Math.abs(((NumberAxis)getYAxis()).getScale()) : 1));
                         y -= getBlockHeight() / 2.0;
