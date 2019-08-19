@@ -3,6 +3,7 @@ package GUI;
 This class was developed by a StackOverflow user Roland and can be found at a link below
 https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
  */
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,27 +11,31 @@ import java.util.List;
 import javafx.beans.NamedArg;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
-
     public static class ExtraData {
 
         public long length;
         public String styleClass;
+        public String label;
 
-
-        public ExtraData(long lengthMs, String styleClass) {
+        public ExtraData(long lengthMs, String styleClass, String label) {
             super();
             this.length = lengthMs;
             this.styleClass = styleClass;
+            this.label = label;
         }
         public long getLength() {
             return length;
@@ -43,6 +48,9 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
         }
         public void setStyleClass(String styleClass) {
             this.styleClass = styleClass;
+        }
+        public String getLabel(){
+            return label;
         }
 
 
@@ -66,6 +74,10 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
         return ((ExtraData) obj).getStyleClass();
     }
 
+    private static String getLabel( Object obj) {
+        return ((ExtraData) obj).getLabel();
+    }
+
     private static double getLength( Object obj) {
         return ((ExtraData) obj).getLength();
     }
@@ -86,9 +98,11 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                 }
                 Node block = item.getNode();
                 Rectangle ellipse;
+                Text label = new Text(getLabel( item.getExtraValue()));
                 if (block != null) {
                     if (block instanceof StackPane) {
                         StackPane region = (StackPane)item.getNode();
+                        region.getChildren().add(label);
                         if (region.getShape() == null) {
                             ellipse = new Rectangle( getLength( item.getExtraValue()), getBlockHeight());
                         } else if (region.getShape() instanceof Rectangle) {
@@ -96,6 +110,7 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                         } else {
                             return;
                         }
+
                         ellipse.setWidth( getLength( item.getExtraValue()) * ((getXAxis() instanceof NumberAxis) ? Math.abs(((NumberAxis)getXAxis()).getScale()) : 1));
                         ellipse.setHeight(getBlockHeight() * ((getYAxis() instanceof NumberAxis) ? Math.abs(((NumberAxis)getYAxis()).getScale()) : 1));
                         y -= getBlockHeight() / 2.0;
@@ -108,6 +123,7 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                         region.setScaleShape(false);
                         region.setCenterShape(false);
                         region.setCacheShape(false);
+
 
                         block.setLayoutX(x);
                         block.setLayoutY(y);
@@ -162,7 +178,9 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
         Node container = item.getNode();
 
         if (container == null) {
-            container = new StackPane();
+            StackPane stackPane = new StackPane();
+            container = stackPane;
+
             item.setNode(container);
         }
 

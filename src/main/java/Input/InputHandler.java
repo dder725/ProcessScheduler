@@ -10,7 +10,7 @@ public class InputHandler
 
 //	Optional argument
 	private String numberOfCores;
-	private Boolean visualise = true;
+	private Boolean visualise = false;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
             System.out.println("GOT HERE");

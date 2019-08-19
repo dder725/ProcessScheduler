@@ -1,5 +1,9 @@
 package GUI;
 
+import Graph.Node;
+import Schedule.Processor;
+import Schedule.State;
+import Schedule.Task;
 import javafx.application.Application;
 
 import javafx.collections.FXCollections;
@@ -12,14 +16,21 @@ import javafx.stage.Stage;
 
 import GUI.GanntChartBuilder.ExtraData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GanntChart {
     Scene scene;
-    public void createGantt() {
 
-        String[] machines = new String[]{"Machine 1", "Machine 2", "Machine 3"};
+    //Set up a blank Gannt chart
+    public void createGantt(State state) {
+        ArrayList<String> processors = new ArrayList<String>();
+        ArrayList<XYChart.Series> processorSeries = new ArrayList<XYChart.Series>();
 
+        for (Processor processor : state.getProcessors()) {
+            processors.add(Integer.toString(processor.getId()));
+            processorSeries.add(new XYChart.Series());
+        }
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
@@ -31,41 +42,31 @@ public class GanntChart {
         yAxis.setLabel("");
         yAxis.setTickLabelFill(Color.CHOCOLATE);
         yAxis.setTickLabelGap(10);
-        yAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(machines)));
+        yAxis.setCategories(FXCollections.observableArrayList(processors));
 
-        chart.setTitle("Machine Monitoring");
+        chart.setTitle("CPU Schedule");
         chart.setLegendVisible(false);
         chart.setBlockHeight(50);
         String machine;
+        int currentSeries = 0;
+        for (Processor processor : state.getProcessors()) {
+            for (Task task : processor.getAllTasks()) {
+                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", task.getNode().getName())));
+            }
+            currentSeries++;
+        }
 
-        machine = machines[0];
-        XYChart.Series series1 = new XYChart.Series();
-        series1.getData().add(new XYChart.Data(0, machine, new ExtraData(1, "status-red")));
-        series1.getData().add(new XYChart.Data(1, machine, new ExtraData(1, "status-green")));
-        series1.getData().add(new XYChart.Data(2, machine, new ExtraData(1, "status-red")));
-        series1.getData().add(new XYChart.Data(3, machine, new ExtraData(1, "status-green")));
-
-        machine = machines[1];
-        XYChart.Series series2 = new XYChart.Series();
-        series2.getData().add(new XYChart.Data(0, machine, new ExtraData(1, "status-green")));
-        series2.getData().add(new XYChart.Data(1, machine, new ExtraData(1, "status-green")));
-        series2.getData().add(new XYChart.Data(2, machine, new ExtraData(2, "status-red")));
-
-        machine = machines[2];
-        XYChart.Series series3 = new XYChart.Series();
-        series3.getData().add(new XYChart.Data(0, machine, new ExtraData(1, "status-blue")));
-        series3.getData().add(new XYChart.Data(1, machine, new ExtraData(2, "status-red")));
-        series3.getData().add(new XYChart.Data(3, machine, new ExtraData(1, "status-green")));
-
-        chart.getData().addAll(series1, series2, series3);
-
+        for(XYChart.Series series: processorSeries){
+            chart.getData().add(series);
+        }
         chart.getStylesheets().add(getClass().getClassLoader().getResource("ganttchart.css").toExternalForm());
 
         Scene scene = new Scene(chart, 620, 350);
         this.scene = scene;
 
     }
-    public Scene getScene(){
+
+    public Scene getScene() {
         return scene;
     }
 }

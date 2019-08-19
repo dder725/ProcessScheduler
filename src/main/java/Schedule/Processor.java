@@ -55,4 +55,8 @@ public class Processor {
     public List<Task> getAllTasks(){
         return _scheduledTasks;
     }
+
+    public int getId(){
+        return _id;
+    }
 }
