@@ -15,10 +15,8 @@ import GUI.GanntChartBuilder.ExtraData;
 import java.util.Arrays;
 
 public class GanntChart {
-
-    public void createGantt(Stage stage) {
-
-        stage.setTitle("Results");
+    Scene scene;
+    public void createGantt() {
 
         String[] machines = new String[]{"Machine 1", "Machine 2", "Machine 3"};
 
@@ -64,8 +62,11 @@ public class GanntChart {
         chart.getStylesheets().add(getClass().getClassLoader().getResource("ganttchart.css").toExternalForm());
 
         Scene scene = new Scene(chart, 620, 350);
-        stage.setScene(scene);
-        stage.show();
+        this.scene = scene;
+
+    }
+    public Scene getScene(){
+        return scene;
     }
 }
 

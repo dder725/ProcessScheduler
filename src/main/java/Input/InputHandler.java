@@ -1,6 +1,8 @@
 package Input;
 
 
+import GUI.MainWindow;
+
 public class InputHandler
 { 
 	private String file;
@@ -8,10 +10,12 @@ public class InputHandler
 
 //	Optional argument
 	private String numberOfCores;
-	private Boolean visualise = false;
+	private Boolean visualise = true;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
-			this.file = args[0];
+            System.out.println("GOT HERE");
+
+            this.file = args[0];
 			this.numberOfProcessors = args[1];
 			String temp;
 
@@ -28,6 +32,9 @@ public class InputHandler
 //					i++;
 				}
 			}
+            if(this.visualise){
+                launchGUI();
+            }
 
 			
 //
@@ -48,5 +55,8 @@ public class InputHandler
 	
 	public String getOutPutName() {
 		return (System.getProperty("user.dir")+"/"+this.outputFileName);
+	}
+	public void launchGUI(){
+            javafx.application.Application.launch(MainWindow.class);
 	}
 }
