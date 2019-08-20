@@ -15,6 +15,8 @@ public class Graph {
         this.edges = edges;
         for (Node node: nodes) {
             minimumProcessingCost += node.getWeight();
+            node.setBottomLevel();
+//            System.out.println("Node "+node.getName()+"'s bottom level is: "+node.getBottomLevel());
         }
     }
 
