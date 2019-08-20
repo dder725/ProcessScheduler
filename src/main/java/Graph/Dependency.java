@@ -14,6 +14,7 @@ public class Dependency {
         this.weight = weight;
     }
 
+
     public Node getParent(){
         return parent;
     }

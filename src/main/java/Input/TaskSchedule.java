@@ -49,7 +49,7 @@ public class TaskSchedule {
 		//System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 
 		try {
-			Graph g = parser.parseDotFile("/home/twelve_koalas/IdeaProjects/ProcessScheduler/src/main/resources/Nodes_11_OutTree.dot");
+			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_10_Random.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState = sch.schedule();
 			_finalSchedule = finalState;
