@@ -12,6 +12,7 @@ public class Node {
     private List<Node> children;
     private int parentsCount;
     private boolean isSourceNode = true;
+    private int bottomLevel;
 
     public Node(String name, int weight){
         this.name = name;
@@ -87,5 +88,19 @@ public class Node {
         	return false;
         }
         
+    }
+
+    public int calculateBottomLevel(Node n) {
+        int currentMax = 0;
+        if(n.getChildren().size()==0){
+            currentMax = n.getWeight();
+        }
+        for (Node c : n.getChildren()) {
+            int bottom = n.getWeight() + calculateBottomLevel(c);
+            if (bottom > currentMax) { // if a task has multiple children, take the shortest path from them
+                currentMax = bottom;
+            }
+        }
+        return currentMax;
     }
 }
