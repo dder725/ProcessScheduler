@@ -49,9 +49,10 @@ public class TaskSchedule {
 		//System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 
 		try {
-			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_10_Random.dot");
+			Graph g = parser.parseDotFile("/afs/ec.auckland.ac.nz/users/g/z/gzhu282/unixhome/Desktop/Project1/target/Nodes_10_Random.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState = sch.schedule();
+
 			_finalSchedule = finalState;
 //			System.out.println(finalState);
 			System.out.println("The cost of the final state is " +finalState.getCost());

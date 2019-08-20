@@ -20,6 +20,8 @@ public class Node {
         parentsCount = 0;
         parents = new ArrayList<Node>();
         children = new ArrayList<Node>();
+        bottomLevel = calculateBottomLevel(this);
+        System.out.println("Node "+this.name+"'s bottom level is: "+this.bottomLevel);
     }
 
     public void addParent(Node parent){
