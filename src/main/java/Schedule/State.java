@@ -228,7 +228,7 @@ public class State implements Comparable<State>{
         return this._cost;
     }
 
-    private List<Task> getAllTasks(){
+    public List<Task> getAllTasks(){
         for(Processor p : this._processors){
             this._allTasks.addAll(p.getAllTasks());
         }

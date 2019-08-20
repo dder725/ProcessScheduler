@@ -1,3 +1,4 @@
+import BranchAndBound.BottomLevelFunction;
 import Schedule.State;
 import Schedule.Processor;
 import Graph.Node;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.*;
+import BranchAndBound.BottomLevelFunction;
 public class StateTest {
     private State currentState1;
     private State currentState2;
@@ -31,6 +33,7 @@ public class StateTest {
     private Map<Node, List<Dependency>> edges = new HashMap<Node, List<Dependency>>();
     private State initialState;
     private Graph g = new Graph("g",ln,edges);
+    private BottomLevelFunction btf=new BottomLevelFunction();
     @org.junit.jupiter.api.BeforeEach
 
     @Before
@@ -39,6 +42,10 @@ public class StateTest {
         node2 = new Node("B",2);
         node3 = new Node("C",3);
         node4 = new Node("D",2);
+        node1.addChild(node2);
+        node1.addChild(node3);
+        node2.addChild(node4);
+        node3.addChild(node4);
         ln.add(node1);
         ln.add(node2);
         ln.add(node3);
@@ -76,6 +83,19 @@ public class StateTest {
         assertEquals(2,currentState1.calculateTaskStartTime(1,node1));
     }
 
+    @Test
+    void testBottomLevel(){
+        assertEquals(7,node1.calculateBottomLevel(node1));
+        assertEquals(4,node1.calculateBottomLevel(node2));
+        assertEquals(5,node1.calculateBottomLevel(node3));
+    }
+
+    @Test
+    void testBottomLevelState(){
+        currentState1=new State (initialState,node1,1);
+        currentState2=new State (currentState1,node2,1);
+        assertEquals(7,btf.calculateBottom(currentState2));
+    }
 
 
 }
