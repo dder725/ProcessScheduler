@@ -18,6 +18,7 @@ public class State implements Comparable<State>{
     private List<Task> _allTasks = new ArrayList<Task>();//
     private int _cost = 0;
     private  Graph _graph = null;
+    private Node _lastScheduledNode;
     private  GraphBuilder _graphB = new GraphBuilder();
 
     /**
@@ -44,7 +45,13 @@ public class State implements Comparable<State>{
         Processor processorToSchedule = this._processors.get(idOfProcessor);
         int startTime = this.calculateTaskStartTime(idOfProcessor,nextNodeToSchedule);
         processorToSchedule.schedule(nextNodeToSchedule,startTime);
+        this._lastScheduledNode = nextNodeToSchedule;
         this._cost = processorToSchedule.getEndTime();
+    }
+
+
+    public Node getlastScheduledNode() {
+        return _lastScheduledNode;
     }
 
     /**
