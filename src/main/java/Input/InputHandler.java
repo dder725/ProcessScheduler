@@ -59,4 +59,8 @@ public class InputHandler
 	public void launchGUI(){
             javafx.application.Application.launch(MainWindow.class);
 	}
+
+	public String getNumberOfCores() {
+			return this.numberOfCores;
+	}
 }

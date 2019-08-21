@@ -39,24 +39,18 @@ public class TaskSchedule {
 		MockInput[0] = str;
 		MockInput[1] = str1;
 		InputHandler input = new InputHandler(MockInput);
-		//InputHandler input = new InputHandler(args);
 		DotFileParser parser = new DotFileParser();
-		//System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 
 		try {
-			Graph g = parser.parseDotFile("/Users/mingzhezhang/Project1/src/main/resources/Nodes_7_OutTree.dot");
+			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_10_Random.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState =  sch.schedule();
-
 			_finalSchedule = finalState;
-//			System.out.println(finalState);
 			System.out.println("The cost of the final state is " +finalState.getCost());
 			Output output = new Output(input);
 			OutputHandler outputHandler = new OutputHandler(finalState,g);
 			String finalOutput = outputHandler.getFinalOutput();
 			output.generateGraph(finalOutput, "dot");
-
-			//MainWindow mainWindow = new MainWindow(finalState);
 			javafx.application.Application.launch(MainWindow.class);
 
 			//output from here
