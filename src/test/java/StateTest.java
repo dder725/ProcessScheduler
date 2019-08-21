@@ -14,6 +14,7 @@ public class StateTest {
     private State currentState1;
     private State currentState2;
     private State currentState3;
+    private State currentState4;
     private State state;
     private Node node1;
     private Node node2;
@@ -46,6 +47,10 @@ public class StateTest {
         node1.addChild(node3);
         node2.addChild(node4);
         node3.addChild(node4);
+        node2.addParent(node1);
+        node3.addParent(node1);
+        node4.addParent(node3);
+        node4.addParent(node2);
         ln.add(node1);
         ln.add(node2);
         ln.add(node3);
@@ -62,8 +67,8 @@ public class StateTest {
         edges.put(node2,ld2);
         edges.put(node3,ld3);
         edges.put(node4,ld4);
-        processor1 = new Processor(1);
-        processor2 = new Processor(2);
+        processor1 = new Processor(0);
+        processor2 = new Processor(1);
         initialState=new State(2,null,g);
     }
 
@@ -96,6 +101,12 @@ public class StateTest {
         currentState2=new State (currentState1,node2,1);
         assertEquals(7,btf.calculateBottom(currentState2));
     }
-
-
+    @Test
+    void testStartTime1(){
+        currentState1=new State (initialState,node1,0);
+        currentState2=new State (currentState1,node2,0);
+        currentState3=new State (currentState2,node3,1);
+        // currentState4=new State (currentState3,node4,2);
+        assertEquals(0,currentState3.calculateTaskStartTime(1,node4));
+    }
 }

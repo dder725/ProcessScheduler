@@ -129,7 +129,7 @@ public class State implements Comparable<State>{
         List<Task> Tasks = this._processors.get(processorID).getAllTasks();
 
         if (parentNodes.isEmpty() && Tasks.isEmpty()){
-
+            System.out.println(node.getParents().size());
             return startTime;
 
         } else if (parentNodes.isEmpty() && !(Tasks.isEmpty())){
@@ -148,8 +148,10 @@ public class State implements Comparable<State>{
             if (nodesInTheProcessor.containsAll(parentNodes)){
                 startTime = Tasks.get(Tasks.size()-1).getEndTime();
             } else {
+
                 List<Node> demo = parentNodes;
                 demo.removeAll(nodesInTheProcessor);
+                System.out.println("parentsize:"+demo.size()+demo.get(0).getName());
 
                 int mostWaitingTime = 0;
 
@@ -182,10 +184,14 @@ public class State implements Comparable<State>{
                         mostWaitingTime = endTime+waitingTime;
                     }
                 }
-                startTime = Tasks.get(Tasks.size()-1).getEndTime() + mostWaitingTime;
+                //startTime = Tasks.get(Tasks.size()-1).getEndTime() + mostWaitingTime;
+                startTime = mostWaitingTime;
             }
         } else if (!(parentNodes.isEmpty()) && Tasks.isEmpty()){
+
+
             int mostWaitingTime = 0;
+            int st = 0;
 
             //demo contains all the parent nodes which are not in the current processor
             for(Node n: parentNodes){
@@ -199,6 +205,7 @@ public class State implements Comparable<State>{
                     if(t.getNode().getName().equals(n.getName())){
                         endTime = t.getEndTime();
                     }
+
                 }
 
                 for (Node i : this._graph.getLinkEdges().keySet()){
@@ -214,9 +221,15 @@ public class State implements Comparable<State>{
                 if(endTime + waitingTime > mostWaitingTime){
                     mostWaitingTime = endTime+waitingTime;
                 }
+                System.out.println("Endtime:"+endTime);
+                System.out.println("Waitingtime"+ waitingTime);
+
             }
-            startTime = mostWaitingTime;
+            st = mostWaitingTime;
+            System.out.println("StartTime:"+st+"for node:"+node.getName());
+            return st;
         }
+        System.out.println("result:"+startTime);
         return startTime;
     }
 
