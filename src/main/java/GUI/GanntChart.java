@@ -11,16 +11,19 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import GUI.GanntChartBuilder.ExtraData;
+import sun.plugin.javascript.navig.Anchor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GanntChart {
-    Scene scene;
+    AnchorPane pane;
 
     //Set up a blank Gannt chart
     public void createGantt(State state) {
@@ -61,13 +64,14 @@ public class GanntChart {
         }
         chart.getStylesheets().add(getClass().getClassLoader().getResource("ganttchart.css").toExternalForm());
 
-        Scene scene = new Scene(chart, 620, 350);
-        this.scene = scene;
+        AnchorPane pane = new AnchorPane(chart);
+        this.pane = pane;
+
 
     }
 
-    public Scene getScene() {
-        return scene;
+    public AnchorPane getPane() {
+        return pane;
     }
 }
 
