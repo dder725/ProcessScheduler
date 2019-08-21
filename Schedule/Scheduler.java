@@ -61,13 +61,6 @@ public class Scheduler {
      * @return Next valid state
      */
     public PriorityQueue<State> nextState() {
-       // System.out.println(_currentStates.peek().getEstimatedCost());
-        //System.out.println("----------");
-        for (State s: _currentStates){
-            //System.out.println(s.getEstimatedCost());
-        }
-        //System.out.println("----------");
-
         List<State> states = this._currentStates.poll().getAllPossibleNextStates(this._graph);
         for (State s :states){
             this._currentStates.add(s);
