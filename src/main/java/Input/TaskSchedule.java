@@ -44,7 +44,7 @@ public class TaskSchedule {
 		//System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 
 		try {
-			Graph g = parser.parseDotFile("/Users/mingzhezhang/Desktop/untitled folder/Project1-newStartTime-3/src/main/resources/Nodes_7_OutTree.dot");
+			Graph g = parser.parseDotFile("/Users/mingzhezhang/Project1/src/main/resources/Nodes_7_OutTree.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState =  sch.schedule();
 

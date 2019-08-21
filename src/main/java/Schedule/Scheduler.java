@@ -3,6 +3,7 @@ package Schedule;
 import Graph.Graph;
 import Input.InputHandler;
 import Graph.Node;
+import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,12 +44,12 @@ public class Scheduler {
 
         State boundaryState = this._currentStates.poll();
         boundary = boundaryState.getCost();
-        Iterator<State> iter = this._currentStates.iterator();
 
+        Iterator<State> iter = this._currentStates.iterator();
         while (iter.hasNext()) {
             State str = iter.next();
             if (str.getEstimatedCost() == boundary && str.getscheduledNodes().size() < boundaryState.getscheduledNodes().size()){
-                //schedule();
+                schedule();
             }else {
                 iter.remove();
             }
@@ -56,6 +57,8 @@ public class Scheduler {
         return boundaryState;
     }
 
+    //TODO
+    // parallel there
     /**
      * This method will return next valid states based on the current state
      * @return Next valid state
