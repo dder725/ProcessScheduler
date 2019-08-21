@@ -89,8 +89,9 @@ public class Graph {
     private HashMap<String, Integer> calculateBottomLevel() {
         HashMap<String, Integer> bottomLevels = new HashMap<String, Integer>();
 
-        for (int i = nodes.size() - 1; i >= 0; i--) {
-            Node n = nodes.get(i);
+        sortedNodes = getSortedNodes();
+        for (int i = sortedNodes.size() - 1; i >= 0; i--) {
+            Node n = sortedNodes.get(i);
             int bottomLevel = 0;
             for (Node childNode : n.getChildren()) {
                 bottomLevel = Math.max(bottomLevel, bottomLevels.get(childNode.getName()) + childNode.getWeight());

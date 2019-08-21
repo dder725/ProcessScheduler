@@ -1,5 +1,6 @@
 digraph " Output " {
 5           [Weight=7,Start=15,Processor=0];
+2           [Weight=5,Start=22,Processor=0];
 0           [Weight=5,Start=0,Processor=1];
 0 -> 1      [Weight = 15];
 0 -> 2      [Weight = 11];
@@ -8,9 +9,8 @@ digraph " Output " {
 1 -> 4      [Weight = 19];
 1 -> 5      [Weight = 4];
 1 -> 6      [Weight = 21];
-6           [Weight=7,Start=11,Processor=1];
-4           [Weight=4,Start=18,Processor=1];
-3           [Weight=6,Start=16,Processor=2];
-2           [Weight=5,Start=16,Processor=3];
+3           [Weight=6,Start=11,Processor=1];
+4           [Weight=4,Start=17,Processor=1];
+6           [Weight=7,Start=21,Processor=1];
 
 }
