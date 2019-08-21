@@ -8,6 +8,7 @@ public class Graph {
     private final Map<Node, List<Dependency>> edges;
     private int minimumProcessingCost;
     private List<Node> sortedNodes;
+    private HashMap<String, Integer> bottomLevels;
 
     public Graph(String name, List<Node> nodes,Map<Node,List<Dependency>> edges) {
         this.gName = name;
@@ -18,6 +19,8 @@ public class Graph {
             node.setBottomLevel();
 //            System.out.println("Node "+node.getName()+"'s bottom level is: "+node.getBottomLevel());
         }
+
+        this.bottomLevels=calculateBottomLevel();
     }
 
     /**
@@ -78,6 +81,34 @@ public class Graph {
    public Map<Node, List<Dependency>> getLinkEdges(){
         return edges;
    }
+
+    /**
+     * Calculate bottom level for all nodes in digraph
+     * @return HashMap<String, Integer> A map of bottom level for each node
+     */
+    private HashMap<String, Integer> calculateBottomLevel() {
+        HashMap<String, Integer> bottomLevels = new HashMap<String, Integer>();
+
+        for (int i = nodes.size() - 1; i >= 0; i--) {
+            Node n = nodes.get(i);
+            int bottomLevel = 0;
+            for (Node childNode : n.getChildren()) {
+                bottomLevel = Math.max(bottomLevel, bottomLevels.get(childNode.getName()) + childNode.getWeight());
+            }
+            bottomLevels.put(n.getName(), bottomLevel);
+        }
+        return bottomLevels;
+    }
+
+    public int getBottomLevel(Node node){
+        //if (bottomLevels.)
+        return bottomLevels.get(node.getName());
+    }
+
+    public HashMap<String, Integer> getBottomLevels(){
+        //if (bottomLevels.)
+        return bottomLevels;
+    }
 
 
 }

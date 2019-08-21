@@ -24,10 +24,11 @@ public class DFSsearch extends Algorithm{
         this._currentState = new State(this._numberOfProcessors,g.getNodes(),g);
         this._currentState.initializeReachableNodes(this._graph);
     }
-    public State produceSchedule(State initialState) {
+   // public State produceSchedule(State initialState) {
 
-        return final_state;
-    }
+        //return final_state;
+    
+   // }
 
 
 }

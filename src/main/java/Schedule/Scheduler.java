@@ -2,13 +2,19 @@ package Schedule;
 
 import Graph.Graph;
 import Input.InputHandler;
+import Graph.Node;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Scheduler {
-    private State _currentState;
+    private State _rootState;
     private  Graph _graph;
+    private PriorityQueue<State> _currentStates = new PriorityQueue<State>();
     private int  _numberOfProcessors;
+
     /**
      * This method will initialize the current state with numbers of processors and reachable nodes.
      * @param Graph g
@@ -17,8 +23,9 @@ public class Scheduler {
     public Scheduler(Graph g, InputHandler i){
         this._graph = g;
         this._numberOfProcessors = i.getNumberOfProcessors();
-        this._currentState = new State(this._numberOfProcessors,g.getNodes(),g);
-        this._currentState.initializeReachableNodes(this._graph);
+        this._rootState = new State(this._numberOfProcessors,g.getNodes(),g);
+        this._rootState.initializeReachableNodes(this._graph);
+        this._currentStates.add(this._rootState);
     }
 
     /**
@@ -26,41 +33,38 @@ public class Scheduler {
      * @return Valid Schedule
      */
     public State schedule(){
-        while (this._currentState.existReachablenodes()){
-            State nextState =  this.nextState();
-            this._currentState =  nextState;
-            this._currentState.refreshReachableNodes();
+        int boundary;
+        while (_currentStates.peek().getscheduledNodes().size() != _graph.getNodes().size()) {
+            for (State s : this._currentStates){
+                s.refreshReachableNodes();
+            }
+            this._currentStates =  this.nextState();
         }
-        return this._currentState;
-    }
 
-    /**
-     * This method will return next valid state based on the current state
-     * @return Next valid state
-     */
-    public State nextState() {
-        List<State> states = _currentState.getAllPossibleNextStates(this._graph);
-        State nextState = this.getTheBestCostState(states);
-        return nextState;
-    }
+        State boundaryState = this._currentStates.poll();
+        boundary = boundaryState.getCost();
+        Iterator<State> iter = this._currentStates.iterator();
 
-    /**
-     * This method gets the minimum cost state from a list of states
-     * @param states
-     * @return minimum cost state
-     */
-    private State getTheBestCostState(List<State> states) {
-        int theEvaluatedCost = Integer.MAX_VALUE;
-        int index = 0;
-
-        for (int i = 0; i< states.size();i++){
-            Heuristic heuristic = new Heuristic(states.get(i));
-            if (states.get(i).getCost() + heuristic.getCost() < theEvaluatedCost){
-                theEvaluatedCost = states.get(i).getCost() + heuristic.getCost();
-                index = i;
+        while (iter.hasNext()) {
+            State str = iter.next();
+            if (str.getEstimatedCost() == boundary && str.getscheduledNodes().size() < boundaryState.getscheduledNodes().size()){
+                //schedule();
+            }else {
+                iter.remove();
             }
         }
-        System.out.println(theEvaluatedCost);
-        return states.get(index);
+        return boundaryState;
+    }
+
+    /**
+     * This method will return next valid states based on the current state
+     * @return Next valid state
+     */
+    public PriorityQueue<State> nextState() {
+        List<State> states = this._currentStates.poll().getAllPossibleNextStates(this._graph);
+        for (State s :states){
+            this._currentStates.add(s);
+        }
+        return this._currentStates;
     }
 }

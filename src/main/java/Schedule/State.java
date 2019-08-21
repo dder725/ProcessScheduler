@@ -3,23 +3,24 @@ package Schedule;
 import Graph.Dependency;
 import Graph.Graph;
 import Graph.Node;
-import Graph.GraphBuilder;
 import com.rits.cloning.Cloner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class State implements Comparable<State>{
+    private  int _estimatedCost;
     private List<Processor> _processors = new ArrayList<Processor>();
     private List<Node> _reachableNodes = new ArrayList<Node>();
     private List<Node> _allNodes = new ArrayList<Node>();
     private List<State> _possibleNextState = new ArrayList<State>();
     private List<Node> _scheduledNodes = new ArrayList<Node>();
     private List<Task> _allTasks = new ArrayList<Task>();//
+    private HashMap<Integer, Integer> _bottomLevels;
     private int _cost = 0;
     private  Graph _graph = null;
-    private Node _lastScheduledNode;
-    private  GraphBuilder _graphB = new GraphBuilder();
 
     /**
      * initialize the first state depends on the number of processors
@@ -31,6 +32,7 @@ public class State implements Comparable<State>{
         for(int i = 0; i < _numberOfProcessors;i++) {
             this._processors.add(new Processor(i));
         }
+        _estimatedCost = Integer.MAX_VALUE;
     }
 
     /**
@@ -45,13 +47,12 @@ public class State implements Comparable<State>{
         Processor processorToSchedule = this._processors.get(idOfProcessor);
         int startTime = this.calculateTaskStartTime(idOfProcessor,nextNodeToSchedule);
         processorToSchedule.schedule(nextNodeToSchedule,startTime);
-        this._lastScheduledNode = nextNodeToSchedule;
-        this._cost = processorToSchedule.getEndTime();
-    }
-
-
-    public Node getlastScheduledNode() {
-        return _lastScheduledNode;
+        for (Processor p : this._processors) {
+            if(p.getEndTime() > this._cost){
+                this._cost = p.getEndTime();
+            }
+        }
+        this._estimatedCost = this._cost + _graph.getBottomLevel(nextNodeToSchedule);
     }
 
     /**
@@ -101,7 +102,7 @@ public class State implements Comparable<State>{
     public void refreshReachableNodes(){
         this._reachableNodes.clear();
         for(Node n:this._allNodes){
-            if(n.isReachable(this._scheduledNodes) && !_scheduledNodes.contains(n)){
+            if(n.isReachable(this._scheduledNodes) && !this._scheduledNodes.contains(n)){
                 this._reachableNodes.add(n);
             }
         }
@@ -129,7 +130,7 @@ public class State implements Comparable<State>{
         List<Task> Tasks = this._processors.get(processorID).getAllTasks();
 
         if (parentNodes.isEmpty() && Tasks.isEmpty()){
-            System.out.println(node.getParents().size());
+
             return startTime;
 
         } else if (parentNodes.isEmpty() && !(Tasks.isEmpty())){
@@ -141,6 +142,7 @@ public class State implements Comparable<State>{
         } else if (!(parentNodes.isEmpty()) && !(Tasks.isEmpty())){
 
             List<Node> nodesInTheProcessor = new ArrayList<Node>();
+
             for(Task t:Tasks){
                 nodesInTheProcessor.add(t.getNode());
             }
@@ -148,10 +150,9 @@ public class State implements Comparable<State>{
             if (nodesInTheProcessor.containsAll(parentNodes)){
                 startTime = Tasks.get(Tasks.size()-1).getEndTime();
             } else {
-
                 List<Node> demo = parentNodes;
+
                 demo.removeAll(nodesInTheProcessor);
-                System.out.println("parentsize:"+demo.size()+demo.get(0).getName());
 
                 int mostWaitingTime = 0;
 
@@ -179,19 +180,15 @@ public class State implements Comparable<State>{
                             }
                         }
                     }
-
                     if(endTime + waitingTime > mostWaitingTime){
                         mostWaitingTime = endTime+waitingTime;
                     }
                 }
-                //startTime = Tasks.get(Tasks.size()-1).getEndTime() + mostWaitingTime;
-                startTime = mostWaitingTime;
+                startTime = Math.max(Tasks.get(Tasks.size()-1).getEndTime(), mostWaitingTime);
             }
+
         } else if (!(parentNodes.isEmpty()) && Tasks.isEmpty()){
-
-
             int mostWaitingTime = 0;
-            int st = 0;
 
             //demo contains all the parent nodes which are not in the current processor
             for(Node n: parentNodes){
@@ -205,7 +202,6 @@ public class State implements Comparable<State>{
                     if(t.getNode().getName().equals(n.getName())){
                         endTime = t.getEndTime();
                     }
-
                 }
 
                 for (Node i : this._graph.getLinkEdges().keySet()){
@@ -221,15 +217,9 @@ public class State implements Comparable<State>{
                 if(endTime + waitingTime > mostWaitingTime){
                     mostWaitingTime = endTime+waitingTime;
                 }
-                System.out.println("Endtime:"+endTime);
-                System.out.println("Waitingtime"+ waitingTime);
-
             }
-            st = mostWaitingTime;
-            System.out.println("StartTime:"+st+"for node:"+node.getName());
-            return st;
+            startTime = mostWaitingTime ;
         }
-        System.out.println("result:"+startTime);
         return startTime;
     }
 
@@ -267,15 +257,10 @@ public class State implements Comparable<State>{
     }
 
 	public int compareTo(State o) {
-		// TODO Auto-generated method stub
-		int thisCost = this.getCost();
-		int oCost = o.getCost();
-		if(thisCost<oCost) {
-			return -1;
-		}else if(thisCost>oCost) {
-			return 1;
-		}
-		return 0;
+        if(this.getEstimatedCost() == o._estimatedCost && this.getscheduledNodes().size() > o.getscheduledNodes().size()){
+            return -1;
+        }
+        return  this.getEstimatedCost() - o._estimatedCost;
 	}
 	
 	@Override
@@ -287,4 +272,8 @@ public class State implements Comparable<State>{
 		return str.toString();
 		
 	}
+
+    public int getEstimatedCost() {
+        return this._estimatedCost;
+    }
 }

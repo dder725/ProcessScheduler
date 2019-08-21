@@ -9,11 +9,6 @@ import Schedule.Scheduler;
 import Schedule.State;
 import Output.OutputHandler;
 import Output.Output;
-import Schedule.Task;
-import com.sun.org.apache.xpath.internal.objects.XNull;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import sun.applet.Main;
 
 public class TaskSchedule {
 	private Graph graph;
@@ -37,8 +32,9 @@ public class TaskSchedule {
 
 	public static void main(String[] args) {
 		new TaskSchedule(); //Create a new instance
+
 		String str = "Nodes_7_OutTree.dot";
-		String str1 = "2";
+		String str1 = "4";
 		String[] MockInput = new String[2];
 		MockInput[0] = str;
 		MockInput[1] = str1;
@@ -48,9 +44,9 @@ public class TaskSchedule {
 		//System.out.println(System.getProperty("user.dir")+"/"+input.getFilePath());
 
 		try {
-			Graph g = parser.parseDotFile("/home/twelve_koalas/IdeaProjects/ProcessScheduler/src/main/resources/Nodes_10_Random.dot");
+			Graph g = parser.parseDotFile("/Users/mingzhezhang/Desktop/untitled folder/Project1-newStartTime-3/src/main/resources/Nodes_7_OutTree.dot");
 			Scheduler sch = new Scheduler(g,input);
-			State finalState = sch.schedule();
+			State finalState =  sch.schedule();
 
 			_finalSchedule = finalState;
 //			System.out.println(finalState);
