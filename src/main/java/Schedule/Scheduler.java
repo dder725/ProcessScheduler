@@ -20,8 +20,8 @@ public class Scheduler {
 
     /**
      * This method will initialize the current state with numbers of processors and reachable nodes.
-     * @param Graph g
-     * @param InputHandler i
+     * @param g
+     * @param i
      */
     public Scheduler(Graph g, InputHandler i){
         this._graph = g;
