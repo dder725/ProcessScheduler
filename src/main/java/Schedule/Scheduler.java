@@ -20,8 +20,6 @@ public class Scheduler {
 
     /**
      * This method will initialize the current state with numbers of processors and reachable nodes.
-     * @param Graph g
-     * @param InputHandler i
      */
     public Scheduler(Graph g, InputHandler i){
         this._graph = g;
@@ -39,10 +37,11 @@ public class Scheduler {
     public State schedule(){
         int boundary;
         while (_currentStates.peek().getscheduledNodes().size() != _graph.getNodes().size()) {
-            System.out.println("Bbefore: "+_currentStates.size());
+            System.out.println("Current State: "+_currentStates.peek().getReachableNodes().size());
             for (State s : this._currentStates){
                 s.refreshReachableNodes();
             }
+            System.out.println("After Refresh: "+_currentStates.peek().getReachableNodes().size());
             System.out.println("before: "+_currentStates.size());
             this._currentStates =  this.nextState();
             System.out.println("after: "+_currentStates.size());
@@ -55,7 +54,7 @@ public class Scheduler {
         while (iter.hasNext()) {
             State str = iter.next();
             if (str.getEstimatedCost() == boundary && str.getscheduledNodes().size() < boundaryState.getscheduledNodes().size()){
-                schedule();
+                //schedule();
             }else {
                 iter.remove();
             }
@@ -80,25 +79,54 @@ public class Scheduler {
         }else {
             //List<Thread> threadPool = new ArrayList<Thread>();
             State leastCostState = this._currentStates.peek();
+            List<String> sheduledNodesName =new ArrayList<String>();
             //TODO:create a loop and get all states with the same cost as the first one
+            for (Node n : leastCostState.getscheduledNodes()){
+                sheduledNodesName.add(n.getName());
+            }
+
             Boolean same = true;
             List<State> states = new ArrayList<State>();
             while (same) {
                 states.add(this._currentStates.poll());
-                if (this._currentStates.isEmpty()||this._currentStates.peek().getCost() != leastCostState.getCost()) {
+                if (this._currentStates.isEmpty()||this._currentStates.peek().getCost() != leastCostState.getCost()||this._currentStates.peek().getscheduledNodes().size()!=leastCostState.getscheduledNodes().size()) {
                     same = false;
                 }
             }
+//
+            Iterator<State> iter = states.iterator();
+            while (iter.hasNext()) {
+                List<String> demo =new ArrayList<String>();
+                State str = iter.next();
+                for (Node n : str.getscheduledNodes()){
+                    demo.add(n.getName());
+                }
+                if (demo.equals(sheduledNodesName)){
+                    iter.remove();
+                }
+            }
+
+            states.add(0,leastCostState);
+
             for (State s : states) {
                 //Executors.newFixedThreadPool(System.getRuntime().availableProcessors());
                 ExecutorService executorPool = Executors.newFixedThreadPool(_numberOfCores);
-                executorPool.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                    //start thread
-                     updateCurrentstates(s);
-                    }
-                });
+//                executorPool.execute(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                    //start thread
+//                     updateCurrentstates(s);
+//                    }
+//                });
+//                executorPool.shutdown();
+//                try {
+//                    executorPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+//                } catch (InterruptedException e) {
+//                }
+                Runnable task1 = () -> {
+                    updateCurrentstates(s);
+                };
+                executorPool.submit(task1);
                 executorPool.shutdown();
                 try {
                     executorPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
@@ -115,6 +143,7 @@ public class Scheduler {
         List<State> nextStates = s.getAllPossibleNextStates(this._graph);
         for (State st : nextStates) {
             this._currentStates.add(st);
+            System.out.println("next state scheduled nodes"+st.getscheduledNodes().size());
         }
     }
 }
