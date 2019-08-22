@@ -9,8 +9,8 @@ public class InputHandler
 	private String numberOfProcessors;
 
 //	Optional argument
-	private String numberOfCores;
-	private Boolean visualise = false;
+	private String numberOfCores = "4";
+	private Boolean visualise = true;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
             System.out.println("GOT HERE");
@@ -24,7 +24,8 @@ public class InputHandler
 				if(temp.equals("-p")){
 					this.numberOfCores = args[i+1];
 //					i++;
-				}else if(temp.equals("-v")){
+				}
+				else if(temp.equals("-v")){
 					this.visualise = true;
 //					i++;
 				}else if(temp.equals("-o")){
@@ -32,8 +33,6 @@ public class InputHandler
 //					i++;
 				}
 			}
-            if(this.visualise){
-                launchGUI();
             }
 
 			
@@ -43,7 +42,7 @@ public class InputHandler
 //			System.out.println("The nuberOfCore is: "+ this.numberOfCores);
 //			System.out.println("Visualise options is: "+this.visualise);
 //			System.out.println("The outputFileName is: "+this.outputFileName);
-		}
+
 
 	public int getNumberOfProcessors() {
 			return Integer.parseInt(this.numberOfProcessors);
@@ -56,11 +55,12 @@ public class InputHandler
 	public String getOutPutName() {
 		return (System.getProperty("user.dir")+"/"+this.outputFileName);
 	}
-	public void launchGUI(){
-            javafx.application.Application.launch(MainWindow.class);
-	}
 
 	public String getNumberOfCores() {
 			return this.numberOfCores;
+	}
+
+	public boolean toVisualize(){
+		return this.visualise;
 	}
 }
