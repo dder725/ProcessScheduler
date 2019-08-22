@@ -43,7 +43,7 @@ public class TaskSchedule {
 		DotFileParser parser = new DotFileParser();
 
 		try {
-			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_11_OutTree.dot");
+			Graph g = parser.parseDotFile("/Users/mingzhezhang/Project1/src/main/resources/Example.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState =  sch.schedule();
 			System.out.println("The scheduled node of finalState: "+finalState.getscheduledNodes().size());

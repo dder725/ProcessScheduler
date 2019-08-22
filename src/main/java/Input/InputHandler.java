@@ -9,7 +9,7 @@ public class InputHandler
 	private String numberOfProcessors;
 
 //	Optional argument
-	private String numberOfCores="2";
+	private String numberOfCores="8";
 	private Boolean visualise = false;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){

@@ -257,6 +257,9 @@ public class State implements Comparable<State>{
     }
 
 	public int compareTo(State o) {
+        if (this.getGraph().getNodes().size() == this.getscheduledNodes().size() && this.getCost() <o.getCost()){
+            return -1;
+        }
         if(this.getEstimatedCost() == o._estimatedCost && this.getscheduledNodes().size() > o.getscheduledNodes().size()){
             return -1;
         }
@@ -270,7 +273,6 @@ public class State implements Comparable<State>{
 			str.append(t.getNode().getName());
 		}
 		return str.toString();
-		
 	}
 
     public int getEstimatedCost() {

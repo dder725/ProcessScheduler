@@ -37,14 +37,11 @@ public class Scheduler {
     public State schedule(){
         int boundary;
         while (_currentStates.peek().getscheduledNodes().size() != _graph.getNodes().size()) {
-            System.out.println("Current State: "+_currentStates.peek().getReachableNodes().size());
             for (State s : this._currentStates){
                 s.refreshReachableNodes();
             }
-            System.out.println("After Refresh: "+_currentStates.peek().getReachableNodes().size());
-            System.out.println("before: "+_currentStates.size());
+            System.out.println("size:"+_currentStates.peek().getscheduledNodes().size()+"   cost:"+_currentStates.peek().getCost());
             this._currentStates =  this.nextState();
-            System.out.println("after: "+_currentStates.size());
         }
 
         State boundaryState = this._currentStates.poll();
@@ -133,8 +130,6 @@ public class Scheduler {
                 } catch (InterruptedException e) {
                 }
             }
-
-
         }
         return this._currentStates;
     }
@@ -143,7 +138,6 @@ public class Scheduler {
         List<State> nextStates = s.getAllPossibleNextStates(this._graph);
         for (State st : nextStates) {
             this._currentStates.add(st);
-            System.out.println("next state scheduled nodes"+st.getscheduledNodes().size());
         }
     }
 }
