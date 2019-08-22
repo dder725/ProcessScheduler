@@ -1,10 +1,11 @@
 package Input;
 
 import java.io.FileNotFoundException;
-
 import GUI.MainWindow;
 import Graph.*;
 import Parser.DotFileParser;
+//import Schedule.AStarScheduler;
+//import Schedule.BABScheduler;
 import Schedule.Scheduler;
 import Schedule.State;
 import Output.OutputHandler;
@@ -34,7 +35,7 @@ public class TaskSchedule {
 		new TaskSchedule(); //Create a new instance
 
 		String str = "Nodes_7_OutTree.dot";
-		String str1 = "2";
+		String str1 = "4";
 		String[] MockInput = new String[2];
 		MockInput[0] = str;
 		MockInput[1] = str1;
@@ -42,9 +43,10 @@ public class TaskSchedule {
 		DotFileParser parser = new DotFileParser();
 
 		try {
-			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_10_Random.dot");
+			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_11_OutTree.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState =  sch.schedule();
+			System.out.println("The scheduled node of finalState: "+finalState.getscheduledNodes().size());
 			_finalSchedule = finalState;
 			System.out.println("The cost of the final state is " +finalState.getCost());
 			Output output = new Output(input);
