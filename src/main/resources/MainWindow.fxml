@@ -17,14 +17,14 @@
          <left>
             <TabPane prefHeight="444.0" prefWidth="690.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab text="Your Graph">
-                  <content>
-                    <AnchorPane minHeight="411.0" minWidth="690.0" prefHeight="411.0" prefWidth="697.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  </content>
-                </Tab>
                 <Tab text="Schedule">
                   <content>
-                    <AnchorPane fx:id="GanttPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane fx:id="GanttPane" minHeight="411.0" minWidth="690.0" prefHeight="411.0" prefWidth="697.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </content>
+                </Tab>
+                <Tab text="Your graph">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                   </content>
                 </Tab>
               </tabs>

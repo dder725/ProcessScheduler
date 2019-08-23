@@ -10,11 +10,9 @@ public class InputHandler
 
 //	Optional argument
 	private String numberOfCores = "8";
-	private Boolean visualise = false;
+	private Boolean visualise = true;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
-            System.out.println("GOT HERE");
-
             this.file = args[0];
 			this.numberOfProcessors = args[1];
 			String temp;

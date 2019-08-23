@@ -47,7 +47,6 @@ public class MainWindowController implements Initializable, InvalidationListener
     public void initializeGantt(){
         gannt = new GanntChart();
         gannt.createGantt(_runtimeMonitor.getOptimal());
-        System.out.println("I am here!");
             AnchorPane ganttPane = gannt.getPane();
 
             GanttPane.getChildren().add(ganttPane);
