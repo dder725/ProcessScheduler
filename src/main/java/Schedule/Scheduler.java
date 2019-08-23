@@ -2,8 +2,6 @@ package Schedule;
 
 import Graph.Graph;
 import Input.InputHandler;
-import Graph.Node;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +15,7 @@ public class Scheduler {
     private PriorityQueue<State> _currentStates = new PriorityQueue<State>();
     private int  _numberOfProcessors;
     private int _numberOfCores=0;
+    private RuntimeMonitor _runtimeMonitor;
 
     /**
      * This method will initialize the current state with numbers of processors and reachable nodes.
@@ -30,6 +29,13 @@ public class Scheduler {
         this._rootState.initializeReachableNodes(this._graph);
         this._currentStates.add(this._rootState);
         this._numberOfCores = Integer.parseInt(i.getNumberOfCores());
+        this._runtimeMonitor = RuntimeMonitor.getInstance();
+
+        if(_runtimeMonitor != null) {
+            _runtimeMonitor.start(_numberOfProcessors, _numberOfCores, _rootState);
+            System.out.println("STARTED A MONITOR");
+        }
+
     }
 
     /**
@@ -37,7 +43,9 @@ public class Scheduler {
      * @return Valid Schedule
      */
     public State schedule(){
+
         int boundary;
+
         while (_currentStates.peek().getscheduledNodes().size() != _graph.getNodes().size()) {
             System.out.println("Bbefore: "+_currentStates.size());
             for (State s : this._currentStates){
@@ -45,12 +53,13 @@ public class Scheduler {
             }
             System.out.println("before: "+_currentStates.size());
             this._currentStates =  this.nextState();
+
             System.out.println("after: "+_currentStates.size());
+
         }
 
         State boundaryState = this._currentStates.poll();
         boundary = boundaryState.getCost();
-
         Iterator<State> iter = this._currentStates.iterator();
         while (iter.hasNext()) {
             State str = iter.next();
@@ -80,6 +89,10 @@ public class Scheduler {
         }else {
             //List<Thread> threadPool = new ArrayList<Thread>();
             State leastCostState = this._currentStates.peek();
+            if(_runtimeMonitor != null) {
+                _runtimeMonitor.updateOptimal(this._currentStates.peek());
+                System.out.println("Updated optimal schedule");
+            }
             //TODO:create a loop and get all states with the same cost as the first one
             Boolean same = true;
             List<State> states = new ArrayList<State>();
