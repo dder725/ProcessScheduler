@@ -38,7 +38,6 @@ public class RuntimeMonitor implements Observable {
 
 
     private List<InvalidationListener> listeners = new ArrayList<>();
-    //private volatile int upperBound = Integer.MAX_VALUE;
     private volatile State optimalSchedule;
     private volatile int optimalScheduleCost;
 
@@ -120,8 +119,8 @@ public class RuntimeMonitor implements Observable {
     }
 
     public void finished(){
-        System.out.println("FINISHED!!!");
         this.finished = true;
+        invalidateListeners();
     }
 
     public boolean isFinished(){

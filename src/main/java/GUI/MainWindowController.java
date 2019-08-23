@@ -36,7 +36,6 @@ public class MainWindowController implements Initializable, InvalidationListener
     public MainWindowController(){
         _mainApp = TaskSchedule.getInstance();
         _runtimeMonitor = new RuntimeMonitor();
-        // _primaryStage = launcher.getPrimaryStage();
         bestScheduleCost = 0;
     }
 
@@ -89,7 +88,6 @@ public class MainWindowController implements Initializable, InvalidationListener
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                System.out.println("Started a thread");
                 _mainApp.runAlgorithm(_mainApp.getInput());
                 return null;
             }
@@ -107,8 +105,6 @@ public class MainWindowController implements Initializable, InvalidationListener
     @Override
     public void invalidated(Observable observable) {
         Platform.runLater(this::updateGantt);
-        System.out.println("OLIOOOOO");
-
     }
 }
 
