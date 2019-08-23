@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,24 +10,12 @@
    <children>
       <BorderPane layoutX="-1.0" layoutY="-4.0" prefHeight="651.0" prefWidth="995.0">
          <right>
-            <SplitPane orientation="VERTICAL" prefHeight="444.0" prefWidth="283.0" BorderPane.alignment="CENTER" />
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="444.0" prefWidth="283.0" BorderPane.alignment="CENTER">
+               <items>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" text="Find Schedule"  onAction="#startAlgorithm"/>
+               </items></SplitPane>
          </right>
-         <left>
-            <TabPane prefHeight="444.0" prefWidth="690.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Schedule">
-                  <content>
-                    <AnchorPane fx:id="GanttPane" minHeight="411.0" minWidth="690.0" prefHeight="411.0" prefWidth="697.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  </content>
-                </Tab>
-                <Tab text="Your graph">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
-         </left>
          <bottom>
             <TitledPane animated="false" text="Statistics" BorderPane.alignment="CENTER">
               <content>
@@ -37,9 +23,9 @@
               </content>
             </TitledPane>
          </bottom>
-         <center>
-            <Separator orientation="VERTICAL" prefHeight="200.0" BorderPane.alignment="CENTER" />
-         </center>
+         <left>
+            <BorderPane fx:id="GanttPane" prefHeight="444.0" prefWidth="688.0" BorderPane.alignment="CENTER" />
+         </left>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -12,6 +12,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -24,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GanntChart {
-    AnchorPane pane;
+    BorderPane pane;
     GanntChartBuilder<Number, String> chart;
     ArrayList<String> processors = new ArrayList<String>();
     ArrayList<XYChart.Series> processorSeries = new ArrayList<XYChart.Series>();
@@ -49,7 +51,7 @@ public class GanntChart {
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.observableArrayList(processors));
 
-        chart.setTitle("CPU Schedule");
+        chart.setTitle("Optimal CPU Schedule");
         chart.setLegendVisible(false);
         chart.setBlockHeight(50);
         String machine;
@@ -66,13 +68,13 @@ public class GanntChart {
         }
         chart.getStylesheets().add(getClass().getClassLoader().getResource("ganttchart.css").toExternalForm());
 
-        AnchorPane pane = new AnchorPane(chart);
+        BorderPane pane = new BorderPane(chart);
         this.pane = pane;
 
 
     }
 
-    public AnchorPane getPane() {
+    public BorderPane getPane() {
         return pane;
     }
 
