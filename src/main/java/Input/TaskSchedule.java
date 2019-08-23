@@ -35,7 +35,7 @@ public class TaskSchedule {
 		new TaskSchedule(); //Create a new instance
 
 		String str = "Nodes_7_OutTree.dot";
-		String str1 = "4";
+		String str1 = "2";
 		String[] MockInput = new String[2];
 		MockInput[0] = str;
 		MockInput[1] = str1;
@@ -43,7 +43,7 @@ public class TaskSchedule {
 		DotFileParser parser = new DotFileParser();
 
 		try {
-			Graph g = parser.parseDotFile("/Users/mingzhezhang/Project1/src/main/resources/Example.dot");
+			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_11_OutTree.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState =  sch.schedule();
 			System.out.println("The scheduled node of finalState: "+finalState.getscheduledNodes().size());
