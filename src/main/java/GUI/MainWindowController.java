@@ -2,24 +2,16 @@ package GUI;
 
 import Input.TaskSchedule;
 import Schedule.RuntimeMonitor;
-import Schedule.State;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import Model.State;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 //import scala.collection.script.Update;
-import sun.applet.Main;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -1,16 +1,14 @@
-package BranchAndBound;
+package CostFunction;
 
-import Graph.*;
+import Model.*;
 import Input.InputHandler;
-import Schedule.Processor;
-import Schedule.State;
-import sun.security.x509.CertificatePolicyMap;
+import Model.State;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class DFSsearch extends Algorithm{
+public class DFSsearch {
     private State _currentState;
     private  Graph _graph;
     private int  _numberOfProcessors;

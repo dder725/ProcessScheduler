@@ -1,5 +1,5 @@
-import Graph.Graph;
-import Graph.Node;
+import Model.Graph;
+import Model.Node;
 import Parser.DotFileParser;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;

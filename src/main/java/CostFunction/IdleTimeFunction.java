@@ -1,8 +1,8 @@
-package BranchAndBound;
+package CostFunction;
 
-import Graph.*;
-import Schedule.State;
-import Schedule.Task;
+import Model.*;
+import Model.State;
+import Model.Task;
 
 public class IdleTimeFunction {
     private int numProcessors;

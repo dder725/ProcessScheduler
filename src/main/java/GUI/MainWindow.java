@@ -1,16 +1,11 @@
 package GUI;
 
 import Input.TaskSchedule;
-import Schedule.State;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import sun.applet.Main;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
-package BranchAndBound;
+package CostFunction;
 
-import Schedule.State;
-import Schedule.Task;
+import Model.State;
+import Model.Task;
 
 public class BottomLevelFunction {
     public static int calculateBottom(State state){

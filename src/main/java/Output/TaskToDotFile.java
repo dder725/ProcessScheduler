@@ -1,6 +1,6 @@
 package Output;
 
-import Schedule.Task;
+import Model.Task;
 
 
 public class TaskToDotFile {

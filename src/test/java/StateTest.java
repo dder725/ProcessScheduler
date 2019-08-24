@@ -1,15 +1,15 @@
-import BranchAndBound.BottomLevelFunction;
-import Schedule.State;
+import CostFunction.BottomLevelFunction;
+import Model.State;
 import Schedule.Processor;
-import Graph.Node;
-import Graph.Dependency;
-import Graph.Graph;
+import Model.Node;
+import Model.Dependency;
+import Model.Graph;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.*;
-import BranchAndBound.BottomLevelFunction;
+
 public class StateTest {
     private State currentState1;
     private State currentState2;
@@ -107,6 +107,6 @@ public class StateTest {
         currentState2=new State (currentState1,node2,0);
         currentState3=new State (currentState2,node3,1);
         // currentState4=new State (currentState3,node4,2);
-        assertEquals(0,currentState3.calculateTaskStartTime(1,node4));
+        assertEquals(6,currentState3.calculateTaskStartTime(1,node4));
     }
 }

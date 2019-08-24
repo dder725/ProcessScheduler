@@ -1,7 +1,7 @@
 package Parser;
 
-import Graph.Graph;
-import Graph.GraphBuilder;
+import Model.Graph;
+import Model.GraphBuilder;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import com.paypal.digraph.parser.GraphParser;
