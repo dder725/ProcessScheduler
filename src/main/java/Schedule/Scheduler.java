@@ -1,14 +1,16 @@
 package Schedule;
 
 import Graph.Graph;
-import Input.InputHandler;
 import Graph.Node;
-import com.sun.xml.internal.bind.v2.TODO;
+import Input.InputHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.*;
 
 public class Scheduler {
@@ -17,6 +19,7 @@ public class Scheduler {
     private PriorityQueue<State> _currentStates = new PriorityQueue<State>();
     private int  _numberOfProcessors;
     private int _numberOfCores=0;
+    private RuntimeMonitor _runtimeMonitor;
 
     /**
      * This method will initialize the current state with numbers of processors and reachable nodes.
@@ -28,6 +31,13 @@ public class Scheduler {
         this._rootState.initializeReachableNodes(this._graph);
         this._currentStates.add(this._rootState);
         this._numberOfCores = Integer.parseInt(i.getNumberOfCores());
+        this._runtimeMonitor = RuntimeMonitor.getInstance();
+
+        if(_runtimeMonitor != null) {
+            _runtimeMonitor.start(_numberOfProcessors, _numberOfCores, _rootState);
+            System.out.println("STARTED A MONITOR");
+        }
+
     }
 
     /**
@@ -36,19 +46,18 @@ public class Scheduler {
      */
     public State schedule(){
         int boundary;
+        int counter = 0;
         while (_currentStates.peek().getscheduledNodes().size() != _graph.getNodes().size()) {
-            //this._currentStates=removeUnnecessaryStates(this._currentStates);
             for (State s : this._currentStates){
                 s.refreshReachableNodes();
             }
-           // System.out.println("size:"+_currentStates.peek().getscheduledNodes().size()+"   cost:"+_currentStates.peek().getEstimatedCost());
-
+            System.out.println("size:"+_currentStates.peek().getscheduledNodes().size()+"   cost:"+_currentStates.peek().getCost());
             nextState();
         }
 
         State boundaryState = this._currentStates.poll();
-
         boundary = boundaryState.getCost();
+
         Iterator<State> iter = this._currentStates.iterator();
         while (iter.hasNext()) {
             State str = iter.next();
@@ -61,6 +70,8 @@ public class Scheduler {
         return boundaryState;
     }
 
+    //TODO
+    // parallel there
     /**
      * This method will return next valid states based on the current state
      * @return Next valid state
@@ -80,6 +91,15 @@ public class Scheduler {
 
             System.out.println("zheli"+leastCostState.toString() + "     cost:"+leastCostState.getCost()+ "     escost:"+leastCostState.getEstimatedCost());
 
+            if(_runtimeMonitor != null) {
+                _runtimeMonitor.updateOptimal(this._currentStates.peek());
+                System.out.println("Updated optimal schedule");
+            }
+            List<String> sheduledNodesName =new ArrayList<String>();
+            //TODO:create a loop and get all states with the same cost as the first one
+            for (Node n : leastCostState.getscheduledNodes()){
+                sheduledNodesName.add(n.getName());
+            }
 
             Boolean same = true;
             List<State> states = new ArrayList<State>();
@@ -89,7 +109,20 @@ public class Scheduler {
                     same = false;
                 }
             }
-            //states =removeUnnecessaryStates(states);
+//
+            Iterator<State> iter = states.iterator();
+            while (iter.hasNext()) {
+                List<String> demo =new ArrayList<String>();
+                State str = iter.next();
+                for (Node n : str.getscheduledNodes()){
+                    demo.add(n.getName());
+                }
+                if (demo.equals(sheduledNodesName)){
+                    iter.remove();
+                }
+            }
+
+            states.add(0,leastCostState);
 
             for (State s : states) {
                 //Executors.newFixedThreadPool(System.getRuntime().availableProcessors());
@@ -117,7 +150,6 @@ public class Scheduler {
                 }
             }
         }
-        //return this._currentStates;
     }
 
     synchronized void updateCurrentstates(State s){

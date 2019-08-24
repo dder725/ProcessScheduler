@@ -21,14 +21,16 @@ import sun.plugin.javascript.navig.Anchor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GanntChart {
     AnchorPane pane;
+    GanntChartBuilder<Number, String> chart;
+    ArrayList<String> processors = new ArrayList<String>();
+    ArrayList<XYChart.Series> processorSeries = new ArrayList<XYChart.Series>();
 
     //Set up a blank Gannt chart
     public void createGantt(State state) {
-        ArrayList<String> processors = new ArrayList<String>();
-        ArrayList<XYChart.Series> processorSeries = new ArrayList<XYChart.Series>();
 
         for (Processor processor : state.getProcessors()) {
             processors.add(Integer.toString(processor.getId()));
@@ -37,7 +39,7 @@ public class GanntChart {
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
-        final GanntChartBuilder<Number, String> chart = new GanntChartBuilder<Number, String>(xAxis, yAxis);
+        chart = new GanntChartBuilder<Number, String>(xAxis, yAxis);
         xAxis.setLabel("");
         xAxis.setTickLabelFill(Color.CHOCOLATE);
         xAxis.setMinorTickCount(4);
@@ -72,6 +74,20 @@ public class GanntChart {
 
     public AnchorPane getPane() {
         return pane;
+    }
+
+    public void clear(){
+        chart.getData().forEach(series ->{series.getData().clear();});
+    }
+
+    public void updateGantt(State state){
+        int currentSeries = 0;
+        for (Processor processor : state.getProcessors()) {
+            for (Task task : processor.getAllTasks()) {
+                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", task.getNode().getName())));
+            }
+            currentSeries++;
+        }
     }
 }
 

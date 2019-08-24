@@ -258,6 +258,10 @@ public class State implements Comparable<State>{
     }
 
 	public int compareTo(State o) {
+
+ //Fast version
+        if(this.getEstimatedCost()<getTotalWeight()/2&&this.getscheduledNodes().size()>_graph.getNodes().size()/2){
+            return 1;}
         if (this.getGraph().getNodes().size() == this.getscheduledNodes().size() && this.getCost() < o.getCost()){
             return -1;
         }
@@ -279,4 +283,32 @@ public class State implements Comparable<State>{
     public int getEstimatedCost() {
         return this._estimatedCost;
     }
+
+    // ke yi you hua!!!!
+    private int getTotalWeight(){
+        int weight=0;
+        for(Node n:_graph.getNodes()){
+            weight=weight+n.getWeight();
+        }
+        return weight;
+    }
+
+    private int diffBetweenExpect(){
+        return Math.abs(getEstimatedCost()-getTotalWeight()/2);
+    }
+    private int getRestWeight(){
+        int est = 0;
+        List<Node> notScheduledNodes = new ArrayList<Node>();
+        notScheduledNodes = _graph.getNodes();
+        notScheduledNodes.removeAll(_scheduledNodes);
+        for(Node n:notScheduledNodes){
+            est=est+n.getWeight();
+        }
+
+        return est;
+    }
+
+
+
+
 }

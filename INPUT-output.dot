@@ -3,22 +3,22 @@ digraph " Output " {
 0 -> 1      [Weight = 9];
 0 -> 2      [Weight = 7];
 0 -> 3      [Weight = 4];
-1           [Weight=70,Start=50,Processor=0];
-1 -> 4      [Weight = 10];
-1 -> 5      [Weight = 7];
-1 -> 6      [Weight = 5];
-4           [Weight=40,Start=120,Processor=0];
-5           [Weight=20,Start=160,Processor=0];
-10           [Weight=20,Start=180,Processor=0];
-3           [Weight=100,Start=54,Processor=1];
-3 -> 10      [Weight = 4];
-9           [Weight=20,Start=157,Processor=1];
-8           [Weight=50,Start=177,Processor=1];
-6           [Weight=100,Start=125,Processor=2];
-2           [Weight=90,Start=57,Processor=3];
+2           [Weight=90,Start=50,Processor=0];
 2 -> 7      [Weight = 5];
 2 -> 8      [Weight = 3];
 2 -> 9      [Weight = 10];
-7           [Weight=80,Start=147,Processor=3];
+9           [Weight=20,Start=140,Processor=0];
+7           [Weight=80,Start=160,Processor=0];
+3           [Weight=100,Start=240,Processor=0];
+3 -> 10      [Weight = 4];
+10           [Weight=20,Start=340,Processor=0];
+1           [Weight=70,Start=59,Processor=1];
+1 -> 4      [Weight = 10];
+1 -> 5      [Weight = 7];
+1 -> 6      [Weight = 5];
+5           [Weight=20,Start=129,Processor=1];
+8           [Weight=50,Start=149,Processor=1];
+6           [Weight=100,Start=199,Processor=1];
+4           [Weight=40,Start=299,Processor=1];
 
 }
