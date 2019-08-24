@@ -42,7 +42,7 @@ public class TaskSchedule {
 		new TaskSchedule(); //Create a new instance
 
 		String str = "Nodes_7_OutTree.dot";
-		String str1 = "2";
+		String str1 = "4";
 		String[] MockInput = new String[2];
 		MockInput[0] = str;
 		MockInput[1] = str1;
@@ -61,7 +61,7 @@ public class TaskSchedule {
 
 		public static void runAlgorithm(InputHandler input) throws FileNotFoundException {
 			DotFileParser parser = new DotFileParser();
-			Graph g = parser.parseDotFile("/home/twelve_koalas/IdeaProjects/ProcessScheduler/src/main/resources/Nodes_8_Random.dot");
+			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_7_OutTree.dot");
 			Scheduler sch = new Scheduler(g,input);
 			State finalState =  sch.schedule();
 			System.out.println("The scheduled node of finalState: "+finalState.getscheduledNodes().size());

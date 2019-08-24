@@ -8,7 +8,7 @@ import javafx.beans.property.Property;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableArray;
-import scala.sys.Prop;
+//import scala.sys.Prop;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,7 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import scala.collection.script.Update;
+//import scala.collection.script.Update;
 import sun.applet.Main;
 
 import java.net.URL;

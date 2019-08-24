@@ -3,8 +3,6 @@ package Schedule;
 import Graph.Graph;
 import Input.InputHandler;
 import Graph.Node;
-import com.sun.xml.internal.bind.v2.TODO;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +55,7 @@ public class Scheduler {
 
             }
             State s_peek = _currentStates.peek();
-            System.out.println("Estimate bottom level:"+s_peek._estimatedCost);
+          //  System.out.println("Estimate bottom level:"+s_peek.getEstimatedCost());
             int i = 0;
             for(Processor p:s_peek.getProcessors()){
                     String tasks = "";
