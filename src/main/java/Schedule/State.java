@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class State implements Comparable<State>{
-    public  int _estimatedCost;
+    private  int _estimatedCost;
     private List<Processor> _processors = new ArrayList<Processor>();
     private List<Node> _reachableNodes = new ArrayList<Node>();
     private List<Node> _allNodes = new ArrayList<Node>();
@@ -52,7 +52,8 @@ public class State implements Comparable<State>{
                 this._cost = p.getEndTime();
             }
         }
-        this._estimatedCost = this._cost + _graph.getBottomLevel(nextNodeToSchedule);
+        //this._estimatedCost =processorToSchedule.getAllTasks().get(processorToSchedule.getAllTasks().size()-1).getStartTime()+ _graph.getBottomLevel(nextNodeToSchedule);
+        this._estimatedCost = Math.max(this._cost, processorToSchedule.getAllTasks().get(processorToSchedule.getAllTasks().size()-1).getStartTime()+ _graph.getBottomLevel(nextNodeToSchedule));
     }
 
     /**
@@ -260,66 +261,27 @@ public class State implements Comparable<State>{
 
  //Fast version
         if(this.getEstimatedCost()<getTotalWeight()/2&&this.getscheduledNodes().size()>_graph.getNodes().size()/2){
-            return 1;
-        }
-        if(this.getEstimatedCost()<o.getEstimatedCost()){
-            //System.out.println("===============1===============\n");
+            return 1;}
+        if (this.getGraph().getNodes().size() == this.getscheduledNodes().size() && this.getCost() < o.getCost()){
             return -1;
-        }else{
-            return 1;
         }
-
-//        if(this.getEstimatedCost()<351&& this.getscheduledNodes().size()>=o.getscheduledNodes().size()&&this.getCost()<=o.getCost()){
-//            //System.out.println("===============1===============\n");
-//            return -1;
-//        }else if(this.getEstimatedCost()<351&& this.getscheduledNodes().size()>=o.getscheduledNodes().size()){
-//            return -1;
-//        }else if(this.getEstimatedCost()<351&&this.getCost()<=o.getCost()){
-//            return -1;
-//        }else if(this.getEstimatedCost()<351){
-//            return -1;
-//        }else{
-//            return this.getEstimatedCost()-o.getEstimatedCost();
-//        }
+        if(this.getEstimatedCost() == o._estimatedCost && this.getscheduledNodes().size() > o.getscheduledNodes().size()){
+            return -1;
+        }
+        return  this.getEstimatedCost() - o._estimatedCost;
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		for(Task t:_allTasks) {
-			str.append(t.getNode().getName());
+		for(Node n:_scheduledNodes) {
+			str.append(n.getName());
 		}
 		return str.toString();
 	}
 
     public int getEstimatedCost() {
-
-        int pos = _processors.get(0).getAllTasks().size();
-        Task end = _processors.get(0).getAllTasks().get(pos-1);
-        for(Processor p:_processors){
-            int _pos = p.getAllTasks().size();
-            if(_pos>0){
-                Task t = p.getAllTasks().get(_pos-1);
-                if(t.getEndTime()>end.getEndTime()){
-                    end = t;
-                }
-            }
-
-        }
-        int es = end.getStartTime()+end.getNode().calculateBottomLevel(end.getNode());
-        int expect = getTotalWeight()/2;
-        int diff = Math.abs(es-expect);
-        // too many out nodes
-//        if(es<expect){
-//            return _cost+getRestWeight();
-//        }else{
-//            //System.out.println("=====1======");
-//            return es;
-//        }
-//        //return Math.min(es,expect);
-//        _estimatedCost=es;
-        _estimatedCost = es;
-        return es;
+        return this._estimatedCost;
     }
 
     // ke yi you hua!!!!

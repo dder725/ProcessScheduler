@@ -96,7 +96,7 @@ public class Graph {
             for (Node childNode : n.getChildren()) {
                 bottomLevel = Math.max(bottomLevel, bottomLevels.get(childNode.getName()) + childNode.getWeight());
             }
-            bottomLevels.put(n.getName(), bottomLevel);
+            bottomLevels.put(n.getName(), bottomLevel+n.getWeight());
         }
         return bottomLevels;
     }

@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable, InvalidationListener {
     private static RuntimeMonitor _monitor;
+    private int b;
+
     private int bestScheduleCost;
     private GanntChart gannt;
     private Stage _primaryStage;
