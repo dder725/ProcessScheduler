@@ -52,7 +52,8 @@ public class State implements Comparable<State>{
                 this._cost = p.getEndTime();
             }
         }
-        this._estimatedCost = this._cost + _graph.getBottomLevel(nextNodeToSchedule);
+        //this._estimatedCost =processorToSchedule.getAllTasks().get(processorToSchedule.getAllTasks().size()-1).getStartTime()+ _graph.getBottomLevel(nextNodeToSchedule);
+        this._estimatedCost = Math.max(this._cost, processorToSchedule.getAllTasks().get(processorToSchedule.getAllTasks().size()-1).getStartTime()+ _graph.getBottomLevel(nextNodeToSchedule));
     }
 
     /**
@@ -257,7 +258,7 @@ public class State implements Comparable<State>{
     }
 
 	public int compareTo(State o) {
-        if (this.getGraph().getNodes().size() == this.getscheduledNodes().size() && this.getCost() <o.getCost()){
+        if (this.getGraph().getNodes().size() == this.getscheduledNodes().size() && this.getCost() < o.getCost()){
             return -1;
         }
         if(this.getEstimatedCost() == o._estimatedCost && this.getscheduledNodes().size() > o.getscheduledNodes().size()){
@@ -269,8 +270,8 @@ public class State implements Comparable<State>{
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		for(Task t:_allTasks) {
-			str.append(t.getNode().getName());
+		for(Node n:_scheduledNodes) {
+			str.append(n.getName());
 		}
 		return str.toString();
 	}
