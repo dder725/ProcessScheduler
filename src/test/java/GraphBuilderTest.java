@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GraphBuilderTest {
     private DotFileParser fileParser;
-    private static final String TEST_FILE_NAME = "/home/twelve_koalas/IdeaProjects/Project1/src/main/resources/Nodes_10_Random.dot";
+    private static String TEST_FILE_NAME = "src\\test\\resources\\Nodes_10_Random.dot";
     private File file;
     private Graph graph;
 
@@ -23,6 +23,8 @@ class GraphBuilderTest {
 
     @Before
     void setUp() throws FileNotFoundException {
+        File inputFile = new File(this.getClass().getResource("/Nodes_10_Random.dot").getFile());
+        TEST_FILE_NAME = inputFile.getAbsolutePath();
         fileParser = new DotFileParser();
         graph = fileParser.parseDotFile(TEST_FILE_NAME);
     }
