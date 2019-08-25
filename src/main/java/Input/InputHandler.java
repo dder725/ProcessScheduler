@@ -14,14 +14,14 @@ public class InputHandler
 //	Optional argument
 	private Boolean algorithm = true;
 	private String numberOfCores = "8";
-	private Boolean visualise = true;
+	private Boolean visualise = false;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
             this.file = args[0];
 			this.numberOfProcessors = args[1];
 			String temp;
 
-			for(int i=0; i < args.length;i++){
+			for(int i=2; i < args.length;i++){
 				temp = args[i];
 				if(temp.equals("-p")){
 					this.numberOfCores = args[i+1];
@@ -35,7 +35,7 @@ public class InputHandler
 //					i++;
 				}else if(temp.equals(("-a"))){
 					this.algorithm = false;
-					i++;
+//					i++;
 				}
 			}
             }
