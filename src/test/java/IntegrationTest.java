@@ -176,4 +176,79 @@ public class IntegrationTest {
         State finalState = algo.schedule();
         assertEquals(227, finalState.getCost());
     }
+
+    @Test
+    public void testCost10for1processors() throws FileNotFoundException {
+        File inputFile = new File(this.getClass().getResource("/Nodes_10_Random.dot").getFile());
+        TEST_FILE_NAME = inputFile.getAbsolutePath();
+        fileParser = new DotFileParser();
+        graph = fileParser.parseDotFile(TEST_FILE_NAME);
+        String[] args = new String[2];
+        args[0] = TEST_FILE_NAME;
+        args[1] = "1";
+        input = new InputHandler(args);
+        Algorithm algo = new AStarScheduler(graph, input);
+        State finalState = algo.schedule();
+        assertEquals(63, finalState.getCost());
+    }
+
+    @Test
+    public void testCost7for1processors() throws FileNotFoundException {
+        File inputFile = new File(this.getClass().getResource("/Nodes_7_OutTree.dot").getFile());
+        TEST_FILE_NAME = inputFile.getAbsolutePath();
+        fileParser = new DotFileParser();
+        graph = fileParser.parseDotFile(TEST_FILE_NAME);
+        String[] args = new String[2];
+        args[0] = TEST_FILE_NAME;
+        args[1] = "1";
+        input = new InputHandler(args);
+        Algorithm algo = new AStarScheduler(graph, input);
+        State finalState = algo.schedule();
+        assertEquals(40, finalState.getCost());
+    }
+
+    @Test
+    public void testCost8for1processors() throws FileNotFoundException {
+        File inputFile = new File(this.getClass().getResource("/Nodes_8_Random.dot").getFile());
+        TEST_FILE_NAME = inputFile.getAbsolutePath();
+        fileParser = new DotFileParser();
+        graph = fileParser.parseDotFile(TEST_FILE_NAME);
+        String[] args = new String[2];
+        args[0] = TEST_FILE_NAME;
+        args[1] = "1";
+        input = new InputHandler(args);
+        Algorithm algo = new AStarScheduler(graph, input);
+        State finalState = algo.schedule();
+        assertEquals(969, finalState.getCost());
+    }
+
+    @Test
+    public void testCost9for1processors() throws FileNotFoundException {
+        File inputFile = new File(this.getClass().getResource("/Nodes_9_SeriesParallel.dot").getFile());
+        TEST_FILE_NAME = inputFile.getAbsolutePath();
+        fileParser = new DotFileParser();
+        graph = fileParser.parseDotFile(TEST_FILE_NAME);
+        String[] args = new String[2];
+        args[0] = TEST_FILE_NAME;
+        args[1] = "1";
+        input = new InputHandler(args);
+        Algorithm algo = new AStarScheduler(graph, input);
+        State finalState = algo.schedule();
+        assertEquals(55, finalState.getCost());
+    }
+
+    @Test
+    public void testCost11for1processors() throws FileNotFoundException {
+        File inputFile = new File(this.getClass().getResource("/Nodes_11_OutTree.dot").getFile());
+        TEST_FILE_NAME = inputFile.getAbsolutePath();
+        fileParser = new DotFileParser();
+        graph = fileParser.parseDotFile(TEST_FILE_NAME);
+        String[] args = new String[2];
+        args[0] = TEST_FILE_NAME;
+        args[1] = "1";
+        input = new InputHandler(args);
+        Algorithm algo = new AStarScheduler(graph, input);
+        State finalState = algo.schedule();
+        assertEquals(640, finalState.getCost());
+    }
 }
