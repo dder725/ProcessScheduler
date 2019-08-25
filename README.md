@@ -5,6 +5,9 @@
 
 Implementation of branch-and-bound type algorithm that solves process scheduling problem optimally for small input graphs.
 
+The wiki contains the algorithm research and implementations Our project plan can be found in the "groupPlans" folder. Our final jar file is available under the newStartTime branch on this repository
+
+
 ## Group 9
 
 | Student        | UPI           | GitHub Username  |
