@@ -87,6 +87,9 @@ public class BABScheduler extends Algorithm {
     private void removeStateHaveBiggerCostThanTheBound() {
         while(!_states.isEmpty()&&_states.peek().getCost()>=this._bound){
             _states.pop();
+            if(_runtimeMonitor != null) {
+                _runtimeMonitor.incrementStatesDeleted(); // Update the monitor
+            }
         }
     }
 

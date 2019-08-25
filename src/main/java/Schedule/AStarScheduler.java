@@ -136,6 +136,9 @@ public class AStarScheduler extends Algorithm{
                 }
                 if (remove==true){
                     iter.remove();
+                    if(_runtimeMonitor != null) {
+                        _runtimeMonitor.incrementStatesDeleted(); // Update the monitor
+                    }
                 }
             }
 
@@ -204,6 +207,9 @@ public class AStarScheduler extends Algorithm{
                 }
                 if(state1.getCost()==state2.getCost()&& equal==true&&state1!=state2){
                     iter.remove();
+                    if(_runtimeMonitor != null) {
+                        _runtimeMonitor.incrementStatesDeleted(); // Update the monitor
+                    }
                 }
 
             }

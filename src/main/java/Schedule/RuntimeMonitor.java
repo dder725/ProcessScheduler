@@ -21,9 +21,7 @@ public class RuntimeMonitor implements Observable {
 
     private volatile int statesExplored;
     private volatile int bestStates;
-    private volatile int bestStatesStorage;
-    private volatile long statesInQueue;
-    private volatile int statesInQueueStorage;
+    private volatile int statesPruned;
 
     private volatile int numberOfProcessors;
     private volatile int numberOfCores;
@@ -47,18 +45,6 @@ public class RuntimeMonitor implements Observable {
         return bestStates;
     }
 
-    public int getBestStatesStorage() {
-        return bestStatesStorage;
-    }
-
-    public long getStatesInQueue() {
-        return statesInQueue;
-    }
-
-    public int getStatesInQueueStorage() {
-        return statesInQueueStorage;
-    }
-
     public int getNumberOfProcessors() {
         return numberOfProcessors;
     }
@@ -67,13 +53,15 @@ public class RuntimeMonitor implements Observable {
         return numberOfCores;
     }
 
+    public int getStatesDeleted(){
+        return statesPruned;
+    }
+
     public RuntimeMonitor(){
         this.finished = false;
         this.statesExplored = 0;
         this.bestStates = 0;
-        this.bestStatesStorage = 0;
-        this.statesInQueue = 0;
-        this.statesInQueueStorage = 0;
+;
         this.totalTime = 0;
         this.optimalScheduleCost = 0;
         this.numberOfCores = 1;
@@ -158,7 +146,6 @@ public class RuntimeMonitor implements Observable {
     }
 
    private void invalidateListeners() {
-//        System.out.println("INVALIDATED LISTENERS");
            for (InvalidationListener listener : listeners) {
                 listener.invalidated(this);
            }
@@ -168,13 +155,18 @@ public class RuntimeMonitor implements Observable {
         statesExplored++;
      }
 
+     public void incrementStatesDeleted(){
+        statesPruned++;
+     }
+
+
+     /*
+     Reset the monitor to its original values for another algorithm run
+      */
     public void resetRuntimeMonitor() {
         this.finished = false;
         this.statesExplored = 0;
         this.bestStates = 0;
-        this.bestStatesStorage = 0;
-        this.statesInQueue = 0;
-        this.statesInQueueStorage = 0;
         this.totalTime = 0;
         this.optimalScheduleCost = 0;
         this.numberOfCores = 1;
