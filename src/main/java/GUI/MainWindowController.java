@@ -83,15 +83,14 @@ public class MainWindowController implements Initializable, InvalidationListener
                     long freeMemory = Runtime.getRuntime().freeMemory();
                     long totalMemory = Runtime.getRuntime().totalMemory();
                     long usedMemory = totalMemory - freeMemory;
+
+                    //Set up a timer
                     double timeElapsed = _runtimeMonitor.getElapsedTime();
                     memoryFreeLabel.setText((freeMemory)  / (1024l * 1024l) + "Mb");
                     memoryTotalLabel.setText(totalMemory / (1024l * 1024l) + "Mb");
                     memoryUsedLabel.setText(usedMemory / (1024l * 1024l) + "Mb");
                     timeLabel.setText(
-                            (timeElapsed>60)?
-                                    String.format("%d:%02.0f", (int)timeElapsed/60, timeElapsed%60)
-                                    :
-                                    String.format("%.2f", timeElapsed)
+                            String.format("%d:%02.0f", (int)timeElapsed/60, timeElapsed%60)
                     );
                     timeUnits.setText((timeElapsed>=60)?"MIN":"SEC");
                 });
@@ -101,7 +100,9 @@ public class MainWindowController implements Initializable, InvalidationListener
 
     }
 
-
+/*
+Build the initial Gantt Chart
+ */
     public void initializeGantt() {
         gannt = new GanntChart();
         gannt.createGantt(_runtimeMonitor.getOptimal());
@@ -114,6 +115,9 @@ public class MainWindowController implements Initializable, InvalidationListener
     }
 
 
+    /*
+    Initialization of the Gantt chart
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _runtimeMonitor.addListener(this);
@@ -123,6 +127,9 @@ public class MainWindowController implements Initializable, InvalidationListener
         });
     }
 
+    /*
+    Event handler for changes in RuntimeMonitor
+     */
     @Override
     public void invalidated(Observable observable) {
         if(!_runtimeMonitor.isFinished()) {

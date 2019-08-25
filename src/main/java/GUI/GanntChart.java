@@ -5,9 +5,12 @@ import Model.State;
 import Model.Task;
 
 import javafx.collections.FXCollections;
+import Model.*;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -51,7 +54,8 @@ public class GanntChart {
         int currentSeries = 0;
         for (Processor processor : state.getProcessors()) {
             for (Task task : processor.getAllTasks()) {
-                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", task.getNode().getName())));
+                Model.Node node = task.getNode();
+                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", node.getName(), node.getWeight(), task.getStartTime(), task.getEndTime())));
             }
             currentSeries++;
         }
@@ -79,7 +83,8 @@ public class GanntChart {
         int currentSeries = 0;
         for (Processor processor : state.getProcessors()) {
             for (Task task : processor.getAllTasks()) {
-                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", task.getNode().getName())));
+                Model.Node node = task.getNode();
+                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", node.getName(), node.getWeight(), task.getStartTime(), task.getEndTime())));
             }
             currentSeries++;
         }

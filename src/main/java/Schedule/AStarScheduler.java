@@ -88,15 +88,12 @@ public class AStarScheduler extends Algorithm{
         return boundaryState;
     }
 
-    //TODO
-    // parallel there
     /**
      * This method will return next valid states based on the current state
      * @return Next valid state
      */
     public PriorityQueue<State> nextState() {
         if(this._numberOfCores == 0||this._currentStates.size()==1||this._currentStates.size()==2||this._currentStates.size()==0){
-            System.out.println("cores = "+_numberOfCores);
             State leastCostState = this._currentStates.peek();
             List<State> states = this._currentStates.poll().getAllPossibleNextStates(this._graph);
             if(leastCostState.getCost()==0){
@@ -160,6 +157,10 @@ public class AStarScheduler extends Algorithm{
         return this._currentStates;
     }
 
+    /**
+     * Synchronized method used to update the current state field in parallel
+     * @param s
+     */
     synchronized void updateCurrentstates(State s){
         List<State> nextStates = s.getAllPossibleNextStates(this._graph);
         if(s.getscheduledNodes().size()==0){
@@ -170,6 +171,10 @@ public class AStarScheduler extends Algorithm{
                 this._currentStates.add(st);
             }}
     }
+
+    /**
+     * Synchronized method used to remove unnecessary states in parallel
+     */
     synchronized void removeUnnecessaryStates(){
         Iterator<State> iter = _currentStates.iterator();
         while (iter.hasNext()) {
