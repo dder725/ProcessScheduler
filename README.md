@@ -30,3 +30,7 @@ java −jar scheduler.jar INPUT.dot P [OPTION]
 * -p N  -- use N cores for execution in parallel (default is sequential)
 * -v    -- visualize the search
 * -o OUTPUT -- OUTPUT is the name of the output .dot file
+* -a    --  switch the algorithm to Branch and Bound
+
+## Note:
+* The input dot file has to be placed next to the jar file
