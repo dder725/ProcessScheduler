@@ -54,6 +54,7 @@
                         <Label fx:id="duplicateSchedulesLabel" layoutX="360.0" layoutY="68.0" text="0" />
                         <Label fx:id="optimalSchedulesLabel" layoutX="360.0" layoutY="88.0" text="0" />
                         <Label fx:id="optimalTimeLabel" layoutX="360.0" layoutY="107.0" text="0" />
+                        <Label fx:id="statusLabel" layoutX="299.0" layoutY="16.0" text="Label" visible="false" />
                      </children></AnchorPane>
               </content>
             </TitledPane>

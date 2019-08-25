@@ -13,7 +13,7 @@ public class InputHandler
 
 //	Optional argument
 	private Boolean algorithm = true;
-	private String numberOfCores = "8";
+	private String numberOfCores = "1";
 	private Boolean visualise = false;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){

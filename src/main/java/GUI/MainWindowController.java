@@ -70,6 +70,8 @@ public class MainWindowController implements Initializable, InvalidationListener
     private Label optimalTimeLabel;
     @FXML
     private javafx.scene.image.ImageView ImageView;
+    @FXML
+    private Label statusLabel;
 
 
     public MainWindowController(){
@@ -88,6 +90,8 @@ public class MainWindowController implements Initializable, InvalidationListener
     public void startAlgorithm(){
 //        if(!_runtimeMonitor.isFinished()){
         _runtimeMonitor.resetRuntimeMonitor();
+        statusLabel.setText("RUNNING...");
+        statusLabel.setVisible(true);
             timer = new Timer();
             long startTime = System.currentTimeMillis();
         timer.schedule(new TimerTask() {
@@ -145,6 +149,9 @@ Build the initial Gantt Chart
         optimalTimeLabel.setText(Integer.toString(_runtimeMonitor.getOptimalScheduleCost()));
         schedulesFoundLabel.setText(Integer.toString(_runtimeMonitor.getStatesExplored()));
         duplicateSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getStatesDeleted()));
+        if(_runtimeMonitor.isFinished()){
+            statusLabel.setText("FINISHED");
+        }
     }
 
 
