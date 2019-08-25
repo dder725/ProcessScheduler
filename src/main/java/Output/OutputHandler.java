@@ -4,10 +4,10 @@ import Model.*;
 import Schedule.*;
 import java.util.*;
 
+/**
+ * This class transfers the State object found to dot format
+ */
 public class OutputHandler {
-
-
-
     private List<Processor> processorList = new ArrayList<Processor>();
     private TaskToDotFile toDotFile = new TaskToDotFile();
     private Graph _graph;

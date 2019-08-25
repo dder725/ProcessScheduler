@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class represents a State/Schedule of the program, It contains the processors which Tasks are scheduled on and the input graph.
+ * It has an estimatedCost which indicate the possibility of this state being optimal in the long run.
+ */
 public class State implements Comparable<State>{
     public  int _estimatedCost;
     private List<Processor> _processors = new ArrayList<Processor>();
@@ -23,7 +27,8 @@ public class State implements Comparable<State>{
     private IdleTimeFunction idleTimeFunction;
     private Node nodeTOSchedule;
     /**
-     * initialize the first state depends on the number of processors
+     * initialize the first initial state depends on the number of processors
+     * No node is scheduled at this stage
      * @param _numberOfProcessors
      */
     public State(int _numberOfProcessors, List<Node> allNodes, Graph g){
@@ -37,8 +42,9 @@ public class State implements Comparable<State>{
     }
 
     /**
-     * takes the number of the processor, find it and then assign a task to its schedule
-     * and we have a new state.
+     * A new state is constructed by schedule a new node on one of the processors of the parent state
+     * All of its field value will be cloned means they don't reference to the same object.
+     * The newly scheduled node will be added to scheduledNodes field and scheduledTasks
      * @param nextNodeToSchedule
      * @param idOfProcessor
      */
@@ -61,7 +67,8 @@ public class State implements Comparable<State>{
     }
 
     /**
-     * this method returns every possible state from the current state in the scheduler
+     * This method finds all the nodes that have all their parent scheduled and create states by schedule each of them into
+     * one of the processors.
      * @param
      * @return
      */
@@ -113,10 +120,7 @@ public class State implements Comparable<State>{
         }
     }
 
-    /**
-     *
-     * @return
-     */
+
     public boolean existReachablenodes() {
         return !(this._reachableNodes.isEmpty());
     }
@@ -236,6 +240,10 @@ public class State implements Comparable<State>{
         return this._cost;
     }
 
+    /**
+     * This method returns all tasks scheduled in this state
+     * @return
+     */
     public List<Task> getAllTasks(){
         for(Processor p : this._processors){
             this._allTasks.addAll(p.getAllTasks());
@@ -261,15 +269,13 @@ public class State implements Comparable<State>{
         return this._reachableNodes;
     }
 
+    @Override
 	public int compareTo(State o) {
-
         if(this.getscheduledNodes().size()>=o.getscheduledNodes().size()&&this.getCost()<=o.getCost()){
-
             return -1;
-        }
-        else if(this.getEstimatedCost()<o.getEstimatedCost() && this.getscheduledNodes().size()>=o.getscheduledNodes().size()){
+        }else if(this.getEstimatedCost()<o.getEstimatedCost() && this.getscheduledNodes().size()>=o.getscheduledNodes().size()){
             return -1;
-        } else{
+        }else{
             return this.getEstimatedCost()-o.getEstimatedCost();
         }
 	}
@@ -283,11 +289,16 @@ public class State implements Comparable<State>{
 		return str.toString();
 	}
 
+    /**
+     * return the estimated cost of the state
+     * it is generated from one of the three cost functions
+     * @return
+     */
     public int getEstimatedCost() {
-
         int es = BottomLevelFunction.calculateBottom(this);
 
         IdleTimeFunction idleTimeFunction=new IdleTimeFunction(_processors.size(),_graph);
+
         es = Math.max(es,idleTimeFunction.calculate(this));
         return es;
     }

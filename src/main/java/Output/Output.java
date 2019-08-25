@@ -8,6 +8,9 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
+/**
+ * This class writes the output to the destinated file
+ */
 public class Output {
     public String TEMP_PATH;
     public InputHandler handler;

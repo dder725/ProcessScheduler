@@ -6,6 +6,9 @@ import Model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represent a processor
+ */
 public class Processor {
     private final int _id;
     private int _endTime;
@@ -57,6 +60,10 @@ public class Processor {
         return _scheduledTasks;
     }
 
+    /**
+     * return the id of this processor
+     * @return
+     */
     public int getId(){
         return _id;
     }

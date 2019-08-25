@@ -2,6 +2,10 @@ package Model;
 
 import java.util.*;
 
+/**
+ * This class represents a Graph that holds all the nodes and dependencies.
+ * and only one graph instatance is allowed in the program
+ */
 public class Graph {
     private final List<Node> nodes;
     private final String gName; //name of the graph
@@ -34,6 +38,10 @@ public class Graph {
         return nodes;
     }
 
+    /**
+     * Source nodes are the nodes which doesn't have a parent
+     * @return
+     */
     public List<Node> getSourceNodes() {
         List<Node> sourceNodes = new ArrayList<Node>();
         for (Node node : nodes) {
@@ -107,7 +115,6 @@ public class Graph {
     }
 
     public HashMap<String, Integer> getBottomLevels(){
-        //if (bottomLevels.)
         return bottomLevels;
     }
 

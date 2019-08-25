@@ -4,6 +4,8 @@ import Model.Node;
 /**
  * Represent a Task schedule on a specified processor
  * A Task's attributes : scheduled node, start time, end time, scheduled processor
+ * A Task is essentially a wrapper for the nodes
+ * Just nodes with a start time
  */
 public class Task {
     private Node _node;
