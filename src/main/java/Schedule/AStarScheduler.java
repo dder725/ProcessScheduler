@@ -33,7 +33,6 @@ public class AStarScheduler extends Algorithm{
 
         if(_runtimeMonitor != null) {
             _runtimeMonitor.start(_numberOfProcessors, _numberOfCores, _rootState);
-            System.out.println("STARTED A MONITOR");
         }
         //super(g,i);
 
@@ -83,6 +82,7 @@ public class AStarScheduler extends Algorithm{
                 iter.remove();
             }
         }
+        _runtimeMonitor.finish(boundaryState);
         return boundaryState;
     }
 
@@ -108,7 +108,6 @@ public class AStarScheduler extends Algorithm{
             State leastCostState = this._currentStates.peek();
             if(_runtimeMonitor != null) {
                 _runtimeMonitor.updateOptimal(this._currentStates.peek());
-                System.out.println("Updated optimal schedule");
             }
             List<String> sheduledNodesName =new ArrayList<String>();
             for (Node n : leastCostState.getscheduledNodes()){
