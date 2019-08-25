@@ -158,7 +158,7 @@ public class RuntimeMonitor implements Observable {
     }
 
    private void invalidateListeners() {
-        System.out.println("INVALIDATED LISTENERS");
+//        System.out.println("INVALIDATED LISTENERS");
            for (InvalidationListener listener : listeners) {
                 listener.invalidated(this);
            }

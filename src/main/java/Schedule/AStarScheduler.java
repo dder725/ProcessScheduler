@@ -48,7 +48,7 @@ public class AStarScheduler extends Algorithm{
         int counter = 0;
         while (_currentStates.peek().getscheduledNodes().size() != _graph.getNodes().size()) {
             counter++;
-            System.out.println("====counter:"+counter+"=====");
+//            System.out.println("====counter:"+counter+"=====");
             for (State s : this._currentStates){
                 s.refreshReachableNodes();
             }
