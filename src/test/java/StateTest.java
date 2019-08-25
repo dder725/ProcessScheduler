@@ -147,7 +147,7 @@ public class StateTest {
     }
 
     @Test
-    void ttestEstimateCost3(){
+    void testEstimateCost3(){
         currentState1=new State (initialState,node1,0);
         currentState2=new State (currentState1,node2,0);
         currentState3=new State (currentState2,node3,1);

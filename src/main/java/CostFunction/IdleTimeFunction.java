@@ -13,29 +13,26 @@ public class IdleTimeFunction {
     }
 
     /**
-     * Creates a new IdleTimeFunction instance. This cost function implementation needs to know
-     * the number of processors that tasks are scheduled on.
-     * @param numProcessors The number of processors that tasks are scheduled on
+     * Constructor that constructs the fields in cost function
      */
 
     public IdleTimeFunction(int numProcessors, Graph g) {
         this.numProcessors = numProcessors;
         this._g=g;
-        // calculate sum of task weights at construction time so it is not re-calculated at every call of calculate()
         this.taskWeightSum = 0;
-
     }
 
 
     public int calculate(State s) {
+        //calculate the weight sum of all nodes
         for (Node n:s.getGraph().getNodes())
         {
-
             this.taskWeightSum += n.getWeight();
         }
+
         int idleTime = 0; // stores the idle time across all processors
         for (int i = 0; i < numProcessors; i++) {
-            int expectedStartTime = 0; // time that next task should start if no idle time
+            int expectedStartTime = 0;
 
             // sum up idle time of each processor that has scheduled tasks on it
             if (s.getProcessors().get(i).getAllTasks() != null) {
