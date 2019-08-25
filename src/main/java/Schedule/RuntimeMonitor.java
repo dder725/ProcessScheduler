@@ -4,11 +4,11 @@ import Input.TaskSchedule;
 import Model.State;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-//import scala.sys.Prop;
 
-import javax.swing.event.MouseInputListener;
 import java.util.ArrayList;
 import java.util.List;
+
+//import scala.sys.Prop;
 
 /*
 Used to pass information to visualization
@@ -103,7 +103,7 @@ public class RuntimeMonitor implements Observable {
         this.optimalSchedule = optimalSchedule;
         this.finishTime = System.currentTimeMillis();
         this.totalTime = this.finishTime - this.startTime;
-       updateOptimal(optimalSchedule);
+        updateOptimal(optimalSchedule);
         // invalidateListeners();
     }
     public double getElapsedTime(){
@@ -119,6 +119,7 @@ public class RuntimeMonitor implements Observable {
 
     public void updateOptimal(State newOptimal) {
         this.optimalSchedule = newOptimal;
+        this.optimalScheduleCost = this.optimalSchedule.getCost();
         this.bestStates++;
         invalidateListeners();
     }
@@ -162,5 +163,25 @@ public class RuntimeMonitor implements Observable {
                 listener.invalidated(this);
            }
      }
+
+     public void incrementStatesExplored(){
+        statesExplored++;
+     }
+
+    public void resetRuntimeMonitor() {
+        this.finished = false;
+        this.statesExplored = 0;
+        this.bestStates = 0;
+        this.bestStatesStorage = 0;
+        this.statesInQueue = 0;
+        this.statesInQueueStorage = 0;
+        this.totalTime = 0;
+        this.optimalScheduleCost = 0;
+        this.numberOfCores = 1;
+        this.numberOfProcessors = TaskSchedule.getInput().getNumberOfProcessors();
+        this.optimalSchedule = new State(numberOfProcessors, null, null);
     }
+
+    }
+
 

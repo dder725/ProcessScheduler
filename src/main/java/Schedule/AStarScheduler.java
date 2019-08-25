@@ -163,6 +163,11 @@ public class AStarScheduler extends Algorithm{
      */
     synchronized void updateCurrentstates(State s){
         List<State> nextStates = s.getAllPossibleNextStates(this._graph);
+        if(_runtimeMonitor != null) {
+            for(int i=0; i< nextStates.size(); i++) {
+                _runtimeMonitor.incrementStatesExplored(); //Update the monitor
+            }
+        }
         if(s.getscheduledNodes().size()==0){
             this._currentStates.add(nextStates.get(0));
         }

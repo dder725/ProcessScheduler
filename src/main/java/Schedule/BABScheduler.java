@@ -29,13 +29,13 @@ public class BABScheduler extends Algorithm {
     public State schedule() {
         State initialState = new State(_i.getNumberOfProcessors(), _g.getNodes(),_g);
         if(_runtimeMonitor != null) {
-            _runtimeMonitor.start(_i.getNumberOfProcessors(), Integer.parseInt(_i.getNumberOfCores()), initialState);
+            _runtimeMonitor.start(_i.getNumberOfProcessors(), Integer.parseInt(_i.getNumberOfCores()), initialState); // Start the monitor
         }
         _states.push(initialState);
         while(!_states.isEmpty()) {
             while(!_states.isEmpty()&&this.checkForStateCompleteness(_states.peek())){                                      //if it is a complete state pop it
                 if(_runtimeMonitor != null) {
-                    _runtimeMonitor.updateOptimal(_states.peek());
+                    _runtimeMonitor.updateOptimal(_states.peek()); // Update the monitor
                 }
                 if (firstTimeComplete) {
                     initialiseTheBound(_states.pop());
@@ -58,6 +58,11 @@ public class BABScheduler extends Algorithm {
                     for (Node n : parent.getReachableNodes()) {                                         //for every nodes
                         //make a new state
                         State newState = new State(parent, n, j);
+
+                        if(_runtimeMonitor != null) {
+                            _runtimeMonitor.incrementStatesExplored();  //Update the monitor
+                        }
+
                         this._states.push(newState);
                     }
                 }

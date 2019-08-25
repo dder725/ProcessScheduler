@@ -2,9 +2,6 @@ package GUI;
 
 import Input.TaskSchedule;
 import Schedule.RuntimeMonitor;
-import Model.State;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -13,16 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import sun.applet.Main;
-import javafx.event.Event;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,6 +52,14 @@ public class MainWindowController implements Initializable, InvalidationListener
     private Label timeUnits;
     @FXML
     private Label graphName;
+    @FXML
+    private Label schedulesFoundLabel;
+    @FXML
+    private Label duplicateSchedulesLabel;
+    @FXML
+    private Label optimalSchedulesLabel;
+    @FXML
+    private Label optimalTimeLabel;
 
 
     public MainWindowController(){
@@ -72,14 +73,11 @@ public class MainWindowController implements Initializable, InvalidationListener
         return _monitor;
     }
 
-    @FXML
-    public void toggleAlgorithmChoice(){
 
-
-    }
-    @FXML
+    @FXML //Method set on "Find Schedule" button
     public void startAlgorithm(){
-        if(!_runtimeMonitor.isFinished()){
+//        if(!_runtimeMonitor.isFinished()){
+        _runtimeMonitor.resetRuntimeMonitor();
             timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -106,6 +104,7 @@ public class MainWindowController implements Initializable, InvalidationListener
             }
         }, 0, 50);
 
+        //Run algorithm in a different thread
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -115,11 +114,10 @@ public class MainWindowController implements Initializable, InvalidationListener
         };
         Thread thread = new Thread(task);
         thread.start();
-        // update all the GUI information in a GUI thread
-    } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The optimal schedule had been already produced. Please relaunch the program using new parameters to find a schedule for a different graph", ButtonType.OK);
-            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            alert.show();}
+//    } else { //Do not allow the user to run the program twice
+//            Alert alert = new Alert(Alert.AlertType.WARNING, "The optimal schedule has already been produced. Please relaunch the program using new parameters to find a schedule for a different graph", ButtonType.OK);
+//            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+//            alert.show();}
     }
 
 /*
@@ -134,6 +132,9 @@ Build the initial Gantt Chart
     public void updateGantt(){
         gannt.clear();
         gannt.updateGantt(_runtimeMonitor.getOptimal());
+        optimalSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getTotalOptimalStates()));
+        optimalTimeLabel.setText(Integer.toString(_runtimeMonitor.getOptimalScheduleCost()));
+        schedulesFoundLabel.setText(Integer.toString(_runtimeMonitor.getStatesExplored()));
     }
 
 
