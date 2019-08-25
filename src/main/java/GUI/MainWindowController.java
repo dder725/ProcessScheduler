@@ -27,6 +27,9 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+Controller class for the main GUI window
+ */
 public class MainWindowController implements Initializable, InvalidationListener {
     private static RuntimeMonitor _monitor;
     private Timer timer;
@@ -124,11 +127,7 @@ public class MainWindowController implements Initializable, InvalidationListener
         };
         Thread thread = new Thread(task);
         thread.start();
-//    } else { //Do not allow the user to run the program twice
-//            Alert alert = new Alert(Alert.AlertType.WARNING, "The optimal schedule has already been produced. Please relaunch the program using new parameters to find a schedule for a different graph", ButtonType.OK);
-//            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-//            alert.show();}
-    }
+}
 
 /*
 Build the initial Gantt Chart
@@ -139,7 +138,7 @@ Build the initial Gantt Chart
         GanttPane.setCenter(gannt.getPane());
     }
 
-    public void updateGantt(){
+    public void updateGUI(){
         gannt.clear();
         gannt.updateGantt(_runtimeMonitor.getOptimal());
         optimalSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getTotalOptimalStates()));
@@ -171,8 +170,10 @@ Build the initial Gantt Chart
             }
         });
 
+        //Listen to the changes in the Runtime Monitor
         _runtimeMonitor.addListener(this);
 
+        //Run graph visualization in a separate thread
         Platform.runLater(() -> {
             initializeGantt();
             Thread thread = new Thread(){
@@ -196,10 +197,10 @@ Build the initial Gantt Chart
     @Override
     public void invalidated(Observable observable) {
         if(!_runtimeMonitor.isFinished()) {
-            Platform.runLater(this::updateGantt);
+            Platform.runLater(this::updateGUI);
         } else {
-            Platform.runLater(this::updateGantt);
-            //Stop the timer
+            Platform.runLater(this::updateGUI);
+            //Stop the timer if the algorithm had finished
             timer.cancel();
             timer.purge();}
     }

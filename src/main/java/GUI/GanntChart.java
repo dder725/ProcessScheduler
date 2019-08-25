@@ -21,6 +21,9 @@ import GUI.GanntChartBuilder.ExtraData;
 
 import java.util.ArrayList;
 
+/*
+This class is aimed to represent a Gantt chart of a schedule
+ */
 public class GanntChart {
     BorderPane pane;
     GanntChartBuilder<Number, String> chart;
