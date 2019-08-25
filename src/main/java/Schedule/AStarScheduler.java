@@ -82,7 +82,9 @@ public class AStarScheduler extends Algorithm{
                 iter.remove();
             }
         }
-        _runtimeMonitor.finish(boundaryState);
+        if(_runtimeMonitor != null) {
+            _runtimeMonitor.finish(boundaryState);
+        }
         return boundaryState;
     }
 
