@@ -24,3 +24,8 @@ nb-configuration.xml
 
 # OS
 .DS_Store
+/src/main/resources/Nodes_7_OutTree.dot
+/src/main/resources/Nodes_9_SeriesParallel.dot
+/src/main/resources/Nodes_10_Random.dot
+/src/main/resources/INPUT-output.dot
+/src/main/resources/Nodes_11_OutTree.dot
