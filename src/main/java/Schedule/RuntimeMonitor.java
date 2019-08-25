@@ -107,7 +107,9 @@ public class RuntimeMonitor implements Observable {
 
     public void updateOptimal(State newOptimal) {
         this.optimalSchedule = newOptimal;
-        this.optimalScheduleCost = this.optimalSchedule.getCost();
+        if(this.optimalScheduleCost < this.optimalSchedule.getCost()) { //Only update if a new schedule has a better cost
+            this.optimalScheduleCost = this.optimalSchedule.getCost();
+        }
         this.bestStates++;
         invalidateListeners();
     }
