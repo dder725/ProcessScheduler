@@ -56,7 +56,7 @@ public class TaskSchedule {
 
 		public static void runAlgorithm(InputHandler input) throws FileNotFoundException {
 			DotFileParser parser = new DotFileParser();
-			Graph g = parser.parseDotFile("/Users/zjq/IdeaProjects/Project1/src/main/resources/Nodes_11_OutTree.dot");
+			Graph g = parser.parseDotFile("/home/twelve_koalas/IdeaProjects/ProcessScheduler/src/main/resources/Nodes_11_OutTree.dot");
 			AStarScheduler sch = new AStarScheduler(g,input);
 			State finalState =  sch.schedule();
 			System.out.println("The scheduled node of finalState: "+finalState.getscheduledNodes().size());
