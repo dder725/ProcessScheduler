@@ -34,6 +34,9 @@ public class MainWindow extends Application {
             primaryStage.setWidth(SCENE_WIDTH);
             primaryStage.setTitle("ScheME");
             primaryStage.setResizable(false);
+
+            //Stop the algorithm from running once the window is closed
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
