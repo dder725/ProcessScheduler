@@ -6,6 +6,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 //import scala.sys.Prop;
 
+import javax.swing.event.MouseInputListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 Used to pass information to visualization
  */
 public class RuntimeMonitor implements Observable {
+    public static final double MILLISECONDS_PER_SECOND = 1000.0;
 
     private volatile boolean started;
     private volatile boolean finished;
@@ -103,8 +105,15 @@ public class RuntimeMonitor implements Observable {
         this.totalTime = this.finishTime - this.startTime;
         invalidateListeners();
     }
-    public long getElapsedTime(){
-        return System.currentTimeMillis() - startTime;
+    public double getElapsedTime(){
+        long elapsedTime;
+        if(startTime > 0) {
+             elapsedTime = System.currentTimeMillis() - startTime;
+            totalTime = (long)(elapsedTime / MILLISECONDS_PER_SECOND);
+        } else {
+             totalTime = 0;
+        }
+        return totalTime;
     }
 
     public void updateOptimal(State newOptimal) {

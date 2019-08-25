@@ -30,6 +30,7 @@ import java.util.TimerTask;
 
 public class MainWindowController implements Initializable, InvalidationListener {
     private static RuntimeMonitor _monitor;
+    private Timer timer;
     private int bestScheduleCost;
     private GanntChart gannt;
     private Stage _primaryStage;
@@ -40,9 +41,15 @@ public class MainWindowController implements Initializable, InvalidationListener
     @FXML
     private Button startButton;
     @FXML
-    private Label memoryLabel;
+    private Label memoryTotalLabel;
+    @FXML
+    private Label memoryUsedLabel;
+    @FXML
+    private Label memoryFreeLabel;
     @FXML
     private Label timeLabel;
+    @FXML
+    private Label timeUnits;
 
 
     public MainWindowController(){
@@ -66,6 +73,32 @@ public class MainWindowController implements Initializable, InvalidationListener
         };
         Thread thread = new Thread(task);
         thread.start();
+        // update all the GUI information in a GUI thread
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    // calculate current used memory
+                    long freeMemory = Runtime.getRuntime().freeMemory();
+                    long totalMemory = Runtime.getRuntime().totalMemory();
+                    long usedMemory = totalMemory - freeMemory;
+                    double timeElapsed = _runtimeMonitor.getElapsedTime();
+                    memoryFreeLabel.setText((freeMemory)  / (1024l * 1024l) + "Mb");
+                    memoryTotalLabel.setText(totalMemory / (1024l * 1024l) + "Mb");
+                    memoryUsedLabel.setText(usedMemory / (1024l * 1024l) + "Mb");
+                    timeLabel.setText(
+                            (timeElapsed>60)?
+                                    String.format("%d:%02.0f", (int)timeElapsed/60, timeElapsed%60)
+                                    :
+                                    String.format("%.2f", timeElapsed)
+                    );
+                    timeUnits.setText((timeElapsed>=60)?"MIN":"SEC");
+                });
+            }
+
+        }, 0, 50);
+
     }
 
 
@@ -75,31 +108,11 @@ public class MainWindowController implements Initializable, InvalidationListener
         GanttPane.setCenter(gannt.getPane());
     }
 
-    private void initializeBestScheduleUpdate() {
-
-        Timeline updateBestSchedule = new Timeline(
-                new KeyFrame(Duration.millis(50), (ActionEvent e) -> {
-                    int newBestScheduleLength = _runtimeMonitor.getOptimalScheduleCost();
-
-                        // only update if the best schedule is different
-                        bestScheduleCost = newBestScheduleLength;
-                        State newSchedule = _runtimeMonitor.getOptimal();
-                        updateGanttChart(newSchedule);
-                }
-                ));
-        updateBestSchedule.setCycleCount(Timeline.INDEFINITE);
-        updateBestSchedule.play();
-    }
-
     public void updateGantt(){
         gannt.clear();
         gannt.updateGantt(_runtimeMonitor.getOptimal());
     }
 
-    public void updateGanttChart(State schedule){
-        gannt.clear();
-        gannt.updateGantt(schedule);
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,13 +121,18 @@ public class MainWindowController implements Initializable, InvalidationListener
         Platform.runLater(() -> {
             initializeGantt();
         });
-
-
     }
 
     @Override
     public void invalidated(Observable observable) {
-        Platform.runLater(this::updateGantt);
+        if(!_runtimeMonitor.isFinished()) {
+            Platform.runLater(this::updateGantt);
+        } else {
+            Platform.runLater(this::updateGantt);
+
+            //Stop the timer
+            timer.cancel();
+            timer.purge();}
     }
 }
 
