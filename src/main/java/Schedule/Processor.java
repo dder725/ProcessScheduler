@@ -1,6 +1,7 @@
 package Schedule;
 
-import Graph.Node;
+import Model.Node;
+import Model.Task;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package Output;
 
-import Graph.*;
+import Model.*;
 import Schedule.*;
 import java.util.*;
 

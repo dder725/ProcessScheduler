@@ -1,4 +1,4 @@
-package Graph;
+package Model;
 
 /**
  * This class describes relationship between a parent node and a child node

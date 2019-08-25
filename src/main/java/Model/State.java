@@ -1,13 +1,12 @@
-package Schedule;
+package Model;
 
-import Graph.Dependency;
-import Graph.Graph;
-import Graph.Node;
+import CostFunction.BottomLevelFunction;
+import CostFunction.IdleTimeFunction;
+import Schedule.Processor;
 import com.rits.cloning.Cloner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class State implements Comparable<State>{
@@ -21,7 +20,8 @@ public class State implements Comparable<State>{
     private HashMap<Integer, Integer> _bottomLevels;
     private int _cost = 0;
     private  Graph _graph = null;
-
+    private IdleTimeFunction idleTimeFunction;
+    private Node nodeTOSchedule;
     /**
      * initialize the first state depends on the number of processors
      * @param _numberOfProcessors
@@ -33,6 +33,7 @@ public class State implements Comparable<State>{
             this._processors.add(new Processor(i));
         }
         _estimatedCost = Integer.MAX_VALUE;
+
     }
 
     /**
@@ -51,8 +52,12 @@ public class State implements Comparable<State>{
             if(p.getEndTime() > this._cost){
                 this._cost = p.getEndTime();
             }
+
         }
-        this._estimatedCost = this._cost + _graph.getBottomLevel(nextNodeToSchedule);
+        nodeTOSchedule=nextNodeToSchedule;
+
+
+        //this._estimatedCost = Math.max((this._cost + _graph.getBottomLevel(nextNodeToSchedule)),idleTimeFunction.calculate(this));
     }
 
     /**
@@ -258,29 +263,15 @@ public class State implements Comparable<State>{
 
 	public int compareTo(State o) {
 
- //Fast version
-        if(this.getEstimatedCost()<getTotalWeight()/2&&this.getscheduledNodes().size()>_graph.getNodes().size()/2){
-            return 1;
-        }
-        if(this.getEstimatedCost()<o.getEstimatedCost()){
-            //System.out.println("===============1===============\n");
-            return -1;
-        }else{
-            return 1;
-        }
+        if(this.getscheduledNodes().size()>=o.getscheduledNodes().size()&&this.getCost()<=o.getCost()){
 
-//        if(this.getEstimatedCost()<351&& this.getscheduledNodes().size()>=o.getscheduledNodes().size()&&this.getCost()<=o.getCost()){
-//            //System.out.println("===============1===============\n");
-//            return -1;
-//        }else if(this.getEstimatedCost()<351&& this.getscheduledNodes().size()>=o.getscheduledNodes().size()){
-//            return -1;
-//        }else if(this.getEstimatedCost()<351&&this.getCost()<=o.getCost()){
-//            return -1;
-//        }else if(this.getEstimatedCost()<351){
-//            return -1;
-//        }else{
-//            return this.getEstimatedCost()-o.getEstimatedCost();
-//        }
+            return -1;
+        }
+        else if(this.getEstimatedCost()<o.getEstimatedCost() && this.getscheduledNodes().size()>=o.getscheduledNodes().size()){
+            return -1;
+        } else{
+            return this.getEstimatedCost()-o.getEstimatedCost();
+        }
 	}
 	
 	@Override
@@ -294,57 +285,14 @@ public class State implements Comparable<State>{
 
     public int getEstimatedCost() {
 
-        int pos = _processors.get(0).getAllTasks().size();
-        Task end = _processors.get(0).getAllTasks().get(pos-1);
-        for(Processor p:_processors){
-            int _pos = p.getAllTasks().size();
-            if(_pos>0){
-                Task t = p.getAllTasks().get(_pos-1);
-                if(t.getEndTime()>end.getEndTime()){
-                    end = t;
-                }
-            }
+        int es = BottomLevelFunction.calculateBottom(this);
 
-        }
-        int es = end.getStartTime()+end.getNode().calculateBottomLevel(end.getNode());
-        int expect = getTotalWeight()/2;
-        int diff = Math.abs(es-expect);
-        // too many out nodes
-//        if(es<expect){
-//            return _cost+getRestWeight();
-//        }else{
-//            //System.out.println("=====1======");
-//            return es;
-//        }
-//        //return Math.min(es,expect);
-//        _estimatedCost=es;
-        _estimatedCost = es;
+        IdleTimeFunction idleTimeFunction=new IdleTimeFunction(_processors.size(),_graph);
+        es = Math.max(es,idleTimeFunction.calculate(this));
         return es;
     }
 
-    // ke yi you hua!!!!
-    private int getTotalWeight(){
-        int weight=0;
-        for(Node n:_graph.getNodes()){
-            weight=weight+n.getWeight();
-        }
-        return weight;
-    }
 
-    private int diffBetweenExpect(){
-        return Math.abs(getEstimatedCost()-getTotalWeight()/2);
-    }
-    private int getRestWeight(){
-        int est = 0;
-        List<Node> notScheduledNodes = new ArrayList<Node>();
-        notScheduledNodes = _graph.getNodes();
-        notScheduledNodes.removeAll(_scheduledNodes);
-        for(Node n:notScheduledNodes){
-            est=est+n.getWeight();
-        }
-
-        return est;
-    }
 
 
 

@@ -1,13 +1,10 @@
 package GUI;
 
-import Graph.Node;
 import Schedule.Processor;
-import Schedule.State;
-import Schedule.Task;
-import javafx.application.Application;
+import Model.State;
+import Model.Task;
 
 import javafx.collections.FXCollections;
-import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -16,14 +13,10 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import GUI.GanntChartBuilder.ExtraData;
-import sun.plugin.javascript.navig.Anchor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class GanntChart {
     BorderPane pane;

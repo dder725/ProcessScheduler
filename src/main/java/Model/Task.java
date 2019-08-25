@@ -1,5 +1,5 @@
-package Schedule;
-import Graph.Node;
+package Model;
+import Model.Node;
 
 /**
  * Represent a Task schedule on a specified processor
