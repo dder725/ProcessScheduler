@@ -57,6 +57,8 @@ public class MainWindowController implements Initializable, InvalidationListener
     private Label timeLabel;
     @FXML
     private Label timeUnits;
+    @FXML
+    private Label graphName;
 
 
     public MainWindowController(){
@@ -136,7 +138,7 @@ Build the initial Gantt Chart
 
 
     /*
-    Initialization of the Gantt chart
+    Initialization of the Main Window
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
