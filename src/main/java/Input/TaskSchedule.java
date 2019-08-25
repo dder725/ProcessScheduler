@@ -75,6 +75,10 @@ public class TaskSchedule {
 			return input;
 		}
 		public static Graph getGraph(){ return graph; }
+
+		public static void toggleAlgorithm(Boolean isAstar){
+			input.setAlgorithm(isAstar);
+		}
 }
 
 

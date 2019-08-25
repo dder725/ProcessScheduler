@@ -10,13 +10,11 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -40,6 +38,12 @@ public class MainWindowController implements Initializable, InvalidationListener
     TaskSchedule _mainApp;
     private static RuntimeMonitor _runtimeMonitor;
     @FXML
+    private MenuButton algorithmChoice;
+    @FXML
+    private MenuItem aStarChoice;
+    @FXML
+    private MenuItem branchBoundChoice;
+    @FXML
     private BorderPane GanttPane;
     @FXML
     private Button startButton;
@@ -59,6 +63,7 @@ public class MainWindowController implements Initializable, InvalidationListener
         _mainApp = TaskSchedule.getInstance();
         _runtimeMonitor = new RuntimeMonitor();
         bestScheduleCost = 0;
+
     }
 
     public static RuntimeMonitor getMonitor(){
@@ -66,9 +71,14 @@ public class MainWindowController implements Initializable, InvalidationListener
     }
 
     @FXML
+    public void toggleAlgorithmChoice(){
+
+
+    }
+    @FXML
     public void startAlgorithm(){
         if(!_runtimeMonitor.isFinished()){
-        timer = new Timer();
+            timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -130,6 +140,22 @@ Build the initial Gantt Chart
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Set up algorithm toggle
+        aStarChoice.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                algorithmChoice.setText(aStarChoice.getText());
+                _mainApp.toggleAlgorithm(true);
+            }
+        });
+        branchBoundChoice.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                algorithmChoice.setText(branchBoundChoice.getText());
+                _mainApp.toggleAlgorithm(false);
+            }
+        });
+
         _runtimeMonitor.addListener(this);
 
         Platform.runLater(() -> {

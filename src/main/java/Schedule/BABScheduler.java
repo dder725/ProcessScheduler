@@ -14,17 +14,29 @@ public class BABScheduler extends Algorithm {
     private int _bound=Integer.MAX_VALUE;
     private boolean firstTimeComplete = true;
     private State _currentFinalState;
+    private RuntimeMonitor _runtimeMonitor;
+
     public BABScheduler(Graph g, InputHandler i){
         this._g = g;
         this._i = i;
+        this._runtimeMonitor = RuntimeMonitor.getInstance();
+
+
     }
+
 
     @Override
     public State schedule() {
         State initialState = new State(_i.getNumberOfProcessors(), _g.getNodes(),_g);
+        if(_runtimeMonitor != null) {
+            _runtimeMonitor.start(_i.getNumberOfProcessors(), Integer.parseInt(_i.getNumberOfCores()), initialState);
+        }
         _states.push(initialState);
         while(!_states.isEmpty()) {
             while(!_states.isEmpty()&&this.checkForStateCompleteness(_states.peek())){                                      //if it is a complete state pop it
+                if(_runtimeMonitor != null) {
+                    _runtimeMonitor.updateOptimal(_states.peek());
+                }
                 if (firstTimeComplete) {
                     initialiseTheBound(_states.pop());
                     firstTimeComplete = false;
@@ -40,6 +52,7 @@ public class BABScheduler extends Algorithm {
             if(!_states.isEmpty()) {
                 State parent = _states.pop();
                 parent.refreshReachableNodes();
+
                 //for every child state push them into the stack
                 for (int j = 0; j < _i.getNumberOfProcessors(); j++) {                  //for every processor
                     for (Node n : parent.getReachableNodes()) {                                         //for every nodes
@@ -49,6 +62,9 @@ public class BABScheduler extends Algorithm {
                     }
                 }
             }else{
+                if(_runtimeMonitor != null) {
+                    _runtimeMonitor.finish(_currentFinalState);
+                }
                 return _currentFinalState;
             }
         }
@@ -57,7 +73,9 @@ public class BABScheduler extends Algorithm {
 
 
 
-
+        if(_runtimeMonitor != null) {
+            _runtimeMonitor.finish(_currentFinalState);
+        }
         return this._currentFinalState;
     }
 

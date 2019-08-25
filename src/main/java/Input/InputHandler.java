@@ -75,4 +75,8 @@ public class InputHandler
 			Algorithm finalAlgorithm = this.algorithm? defau:BAB;
 			return finalAlgorithm;
 	}
+
+	public void setAlgorithm(Boolean isAstar){
+			this.algorithm = isAstar;
+	}
 }
