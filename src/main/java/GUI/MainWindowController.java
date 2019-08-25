@@ -16,16 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -95,6 +86,7 @@ public class MainWindowController implements Initializable, InvalidationListener
 //        if(!_runtimeMonitor.isFinished()){
         _runtimeMonitor.resetRuntimeMonitor();
             timer = new Timer();
+            long startTime = System.currentTimeMillis();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -105,7 +97,9 @@ public class MainWindowController implements Initializable, InvalidationListener
                     long usedMemory = totalMemory - freeMemory;
 
                     //Set up a timer
-                    double timeElapsed = _runtimeMonitor.getElapsedTime();
+                    double timeElapsed = System.currentTimeMillis() - startTime;
+                    timeElapsed = timeElapsed / 1000.0;
+                    System.out.println(timeElapsed);
                     memoryFreeLabel.setText((freeMemory)  / (1024l * 1024l) + "Mb");
                     memoryTotalLabel.setText(totalMemory / (1024l * 1024l) + "Mb");
                     memoryUsedLabel.setText(usedMemory / (1024l * 1024l) + "Mb");
@@ -151,6 +145,7 @@ Build the initial Gantt Chart
         optimalSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getTotalOptimalStates()));
         optimalTimeLabel.setText(Integer.toString(_runtimeMonitor.getOptimalScheduleCost()));
         schedulesFoundLabel.setText(Integer.toString(_runtimeMonitor.getStatesExplored()));
+        duplicateSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getStatesDeleted()));
     }
 
 
@@ -187,7 +182,7 @@ Build the initial Gantt Chart
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Image img = new Image("ex2.png");
+                    Image img = new Image("/ex2.png");
                     ImageView.setImage(img);
                 }
             };
