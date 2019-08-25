@@ -71,23 +71,45 @@ public class StateTest {
         processor2 = new Processor(1);
         initialState=new State(2,null,g);
     }
-
+    /**
+     * Test the existence of  reachable nodes
+     */
     @Test
     void testReachableNodes() {
-        assertEquals(true,initialState.existReachablenodes());
+        assertEquals(false,initialState.existReachablenodes());
     }
 
+    /**
+     * Test the start time of the initial state
+     */
     @Test
     void testInitialStartTime() {
         assertEquals(0,initialState.calculateTaskStartTime(1,node1));
     }
 
+    /**
+     * Test the start time of the second state
+     */
     @Test
     void testStartTime() {
         currentState1=new State (initialState,node1,1);
         assertEquals(2,currentState1.calculateTaskStartTime(1,node1));
     }
 
+    /**
+     * Test the start time of any existing state
+     */
+    @Test
+    void testCurrentStartTime(){
+        currentState1=new State (initialState,node1,0);
+        currentState2=new State (currentState1,node2,0);
+        currentState3=new State (currentState2,node3,1);
+        assertEquals(6,currentState3.calculateTaskStartTime(1,node4));
+    }
+
+    /**
+     * Test the Bottom level of the nodes
+     */
     @Test
     void testBottomLevel(){
         assertEquals(7,node1.calculateBottomLevel(node1));
@@ -95,23 +117,21 @@ public class StateTest {
         assertEquals(5,node1.calculateBottomLevel(node3));
     }
 
+    /**
+     * Test the Bottom level of the States
+     */
     @Test
     void testBottomLevelState(){
         currentState1=new State (initialState,node1,1);
         currentState2=new State (currentState1,node2,1);
         assertEquals(7,btf.calculateBottom(currentState2));
     }
-    @Test
-    void testStartTime1(){
-        currentState1=new State (initialState,node1,0);
-        currentState2=new State (currentState1,node2,0);
-        currentState3=new State (currentState2,node3,1);
-        // currentState4=new State (currentState3,node4,2);
-        assertEquals(6,currentState3.calculateTaskStartTime(1,node4));
-    }
 
+    /**
+     * Test the estimated cost of existing state
+     */
     @Test
-    void testGetCost1(){
+    void testEstimateCost1(){
         currentState1=new State (initialState,node1,0);
         currentState2=new State (currentState1,node2,0);
         currentState3=new State (currentState2,node3,1);
@@ -119,7 +139,7 @@ public class StateTest {
     }
 
     @Test
-    void testGetCost2(){
+    void testEstimateCost2(){
         currentState1=new State (initialState,node1,0);
         currentState2=new State (currentState1,node2,0);
         currentState3=new State (currentState2,node3,1);
@@ -127,7 +147,7 @@ public class StateTest {
     }
 
     @Test
-    void testGetCost3(){
+    void ttestEstimateCost3(){
         currentState1=new State (initialState,node1,0);
         currentState2=new State (currentState1,node2,0);
         currentState3=new State (currentState2,node3,1);
