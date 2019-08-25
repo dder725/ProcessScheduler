@@ -1,16 +1,16 @@
 package Input;
 
-import java.io.FileNotFoundException;
 import GUI.MainWindow;
-import Model.*;
+import Model.Graph;
+import Model.State;
+import Output.Output;
+import Output.OutputHandler;
 import Parser.DotFileParser;
 import Schedule.Algorithm;
 import Schedule.RuntimeMonitor;
-import Schedule.AStarScheduler;
-import Model.State;
-import Output.OutputHandler;
-import Output.Output;
 import javafx.application.Application;
+
+import java.io.FileNotFoundException;
 
 public class TaskSchedule {
 	private static Graph graph;
@@ -76,6 +76,13 @@ public class TaskSchedule {
 		}
 		public static Graph getGraph(){ return graph; }
 
+    public static String getGraphName() {
+        String filePath = input.getFilePath();
+        int index = filePath.lastIndexOf("/");
+        String fileName = filePath.substring(index + 1);
+        return fileName;
+
+    }
 		public static void toggleAlgorithm(Boolean isAstar){
 			input.setAlgorithm(isAstar);
 		}

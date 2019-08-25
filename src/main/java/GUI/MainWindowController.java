@@ -142,6 +142,7 @@ Build the initial Gantt Chart
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        graphName.setText(_mainApp.getGraphName());
         //Set up algorithm toggle
         aStarChoice.setOnAction(new EventHandler<ActionEvent>() {
             @Override
