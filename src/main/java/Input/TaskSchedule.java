@@ -39,9 +39,10 @@ public class TaskSchedule {
 
 		String str = "Nodes_7_OutTree.dot";
 		String str1 = "4";
-		String[] MockInput = new String[2];
+		String[] MockInput = new String[3];
 		MockInput[0] = str;
 		MockInput[1] = str1;
+		MockInput[2] = "-v";
 		input = new InputHandler(args);
 
 		try {
@@ -57,7 +58,7 @@ public class TaskSchedule {
 
 		public static void runAlgorithm(InputHandler input) throws FileNotFoundException {
 			DotFileParser parser = new DotFileParser();
-			Graph g = parser.parseDotFile(input.getFilePath());
+			Graph g = parser.parseDotFile(System.getProperty("user.dir")+"/"+ input.getFilePath());
 			graph = g;
 			Algorithm sch = input.getAlgorithm();
 			State finalState =  sch.schedule();
@@ -73,9 +74,7 @@ public class TaskSchedule {
 		public static InputHandler getInput(){
 			return input;
 		}
-		public static Graph getGraph(){
-			return graph;
-		}
+		public static Graph getGraph(){ return graph; }
 }
 
 
