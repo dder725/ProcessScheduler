@@ -20,11 +20,11 @@ public class InputHandler
             this.file = args[0];
 			this.numberOfProcessors = args[1];
 			String temp;
-
-			for(int i=2; i < args.length;i++){
+			for(int i=0; i < args.length;i++){
 				temp = args[i];
 				if(temp.equals("-p")){
 					this.numberOfCores = args[i+1];
+					System.out.println("numberOfCores:"+numberOfCores);
 //					i++;
 				}
 				else if(temp.equals("-v")){

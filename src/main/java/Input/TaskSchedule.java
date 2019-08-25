@@ -36,13 +36,6 @@ public class TaskSchedule {
 
 	public static void main(String[] args) {
 		new TaskSchedule(); //Create a new instance
-
-		String str = "Nodes_7_OutTree.dot";
-		String str1 = "4";
-		String[] MockInput = new String[3];
-		MockInput[0] = str;
-		MockInput[1] = str1;
-		MockInput[2] = "-v";
 		input = new InputHandler(args);
 
 		try {
