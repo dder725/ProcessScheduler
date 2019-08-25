@@ -2,6 +2,8 @@ package GUI;
 
 import Input.TaskSchedule;
 import Schedule.RuntimeMonitor;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.Graphviz;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -14,9 +16,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -60,6 +74,8 @@ public class MainWindowController implements Initializable, InvalidationListener
     private Label optimalSchedulesLabel;
     @FXML
     private Label optimalTimeLabel;
+    @FXML
+    private javafx.scene.image.ImageView ImageView;
 
 
     public MainWindowController(){
@@ -164,6 +180,18 @@ Build the initial Gantt Chart
 
         Platform.runLater(() -> {
             initializeGantt();
+            Thread thread = new Thread(){
+                public void run(){
+                    try {
+                        Graphviz.fromFile(new File(_mainApp.getPath())).width(900).render(Format.PNG).toFile(new File("ex2.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Image img = new Image("ex2.png");
+                    ImageView.setImage(img);
+                }
+            };
+            thread.start();
         });
     }
 

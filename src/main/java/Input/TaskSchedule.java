@@ -86,6 +86,10 @@ public class TaskSchedule {
 		public static void toggleAlgorithm(Boolean isAstar){
 			input.setAlgorithm(isAstar);
 		}
+
+	public String getPath() {
+		return System.getProperty("user.dir")+"/"+ input.getFilePath();
+	}
 }
 
 
