@@ -109,4 +109,28 @@ public class StateTest {
         // currentState4=new State (currentState3,node4,2);
         assertEquals(6,currentState3.calculateTaskStartTime(1,node4));
     }
+
+    @Test
+    void testGetCost1(){
+        currentState1=new State (initialState,node1,0);
+        currentState2=new State (currentState1,node2,0);
+        currentState3=new State (currentState2,node3,1);
+        assertEquals(7,currentState1.getEstimatedCost());
+    }
+
+    @Test
+    void testGetCost2(){
+        currentState1=new State (initialState,node1,0);
+        currentState2=new State (currentState1,node2,0);
+        currentState3=new State (currentState2,node3,1);
+        assertEquals(7,currentState2.getEstimatedCost());
+    }
+
+    @Test
+    void testGetCost3(){
+        currentState1=new State (initialState,node1,0);
+        currentState2=new State (currentState1,node2,0);
+        currentState3=new State (currentState2,node3,1);
+        assertEquals(8,currentState3.getEstimatedCost());
+    }
 }
