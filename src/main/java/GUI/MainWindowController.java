@@ -16,16 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -183,11 +174,12 @@ Build the initial Gantt Chart
             Thread thread = new Thread(){
                 public void run(){
                     try {
-                        Graphviz.fromFile(new File(_mainApp.getPath())).width(900).render(Format.PNG).toFile(new File("ex2.png"));
+                        Graphviz.fromFile(new File(_mainApp.getPath())).width(900).render(Format.PNG).toFile(new File( "output.png"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Image img = new Image("ex2.png");
+
+                    Image img = new Image("file:output.png");
                     ImageView.setImage(img);
                 }
             };
