@@ -19,7 +19,7 @@ The wiki contains the algorithm research and implementations Our project plan ca
 | Lisa Wang      |zwan940        |  zwan940         |
 
 ## Getting started
-To be added
+To build the application, simply import this project into intellij as a Maven project and run the lifecycle "package"
 
 ## Running the program
 From the directory where the .jar file is located, run the following command:
