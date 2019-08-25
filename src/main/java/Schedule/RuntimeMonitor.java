@@ -103,6 +103,9 @@ public class RuntimeMonitor implements Observable {
         this.totalTime = this.finishTime - this.startTime;
         invalidateListeners();
     }
+    public long getElapsedTime(){
+        return System.currentTimeMillis() - startTime;
+    }
 
     public void updateOptimal(State newOptimal) {
         this.optimalSchedule = newOptimal;
