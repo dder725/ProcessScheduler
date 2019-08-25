@@ -19,6 +19,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -30,16 +31,35 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
         public long length;
         public String styleClass;
         public String label;
+        public int startTime;
+        public int finishTime;
+        public int weight;
 
-        public ExtraData(long lengthMs, String styleClass, String label) {
+
+        public ExtraData(long lengthMs, String styleClass, String label, int weight, int startTime, int finishTime) {
             super();
             this.length = lengthMs;
+            this.weight = weight;
             this.styleClass = styleClass;
             this.label = label;
+            this.startTime = startTime;
+            this.finishTime = finishTime;
         }
         public long getLength() {
             return length;
         }
+        public int getWeight(){
+            return weight;
+        }
+
+        public int getStartTime() {
+            return startTime;
+        }
+
+        public int getFinishTime() {
+            return finishTime;
+        }
+
         public void setLength(long length) {
             this.length = length;
         }
@@ -82,6 +102,14 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
         return ((ExtraData) obj).getLength();
     }
 
+    private static int getWeight(Object obj) { return ((ExtraData)obj).getWeight();}
+
+    private static int getStartTime(Object obj) { return ((ExtraData)obj).getStartTime();}
+
+    private static int getEndTime(Object obj) { return ((ExtraData)obj).getFinishTime();}
+
+
+
     @Override protected void layoutPlotChildren() {
 
         for (int seriesIndex=0; seriesIndex < getData().size(); seriesIndex++) {
@@ -102,6 +130,10 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                 if (block != null) {
                     if (block instanceof StackPane) {
                         StackPane region = (StackPane)item.getNode();
+
+                        //Add tooltips to expand information about a task
+                        Tooltip.install(region,new Tooltip("Task: " + getLabel(item.getExtraValue()) + "\n Weight: " + getWeight(item.getExtraValue()) + "\n Start time: " + getStartTime(item.getExtraValue()) + "\n Finish time: " + getEndTime(item.getExtraValue())));
+
                         //region.getChildren().add(label);
                         if (region.getShape() == null) {
                             ellipse = new Rectangle( getLength( item.getExtraValue()), getBlockHeight());
