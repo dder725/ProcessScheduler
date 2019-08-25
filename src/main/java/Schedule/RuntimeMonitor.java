@@ -112,7 +112,7 @@ public class RuntimeMonitor implements Observable {
              elapsedTime = System.currentTimeMillis() - startTime;
             totalTime = (long)(elapsedTime / MILLISECONDS_PER_SECOND);
         } else {
-             totalTime = 0;
+            totalTime = startTime;
         }
         return totalTime;
     }

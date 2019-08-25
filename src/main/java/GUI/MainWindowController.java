@@ -13,11 +13,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sun.applet.Main;
@@ -64,16 +67,7 @@ public class MainWindowController implements Initializable, InvalidationListener
 
     @FXML
     public void startAlgorithm(){
-        Task task = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                _mainApp.runAlgorithm(_mainApp.getInput());
-                return null;
-            }
-        };
-        Thread thread = new Thread(task);
-        thread.start();
-        // update all the GUI information in a GUI thread
+        if(!_runtimeMonitor.isFinished()){
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -90,14 +84,30 @@ public class MainWindowController implements Initializable, InvalidationListener
                     memoryTotalLabel.setText(totalMemory / (1024l * 1024l) + "Mb");
                     memoryUsedLabel.setText(usedMemory / (1024l * 1024l) + "Mb");
                     timeLabel.setText(
-                            String.format("%d:%02.0f", (int)timeElapsed/60, timeElapsed%60)
+                            (timeElapsed>60)?
+                                    String.format("%d:%02.0f", (int)timeElapsed/60, timeElapsed%60)
+                                    :
+                                    String.format("%.2f", timeElapsed)
                     );
                     timeUnits.setText((timeElapsed>=60)?"MIN":"SEC");
                 });
             }
-
         }, 0, 50);
 
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                _mainApp.runAlgorithm(_mainApp.getInput());
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
+        // update all the GUI information in a GUI thread
+    } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The optimal schedule had been already produced. Please relaunch the program using new parameters to find a schedule for a different graph", ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.show();}
     }
 
 /*
@@ -136,7 +146,6 @@ Build the initial Gantt Chart
             Platform.runLater(this::updateGantt);
         } else {
             Platform.runLater(this::updateGantt);
-
             //Stop the timer
             timer.cancel();
             timer.purge();}

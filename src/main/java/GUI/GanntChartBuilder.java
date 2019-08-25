@@ -132,7 +132,7 @@ public class GanntChartBuilder<X,Y> extends XYChart<X,Y> {
                         StackPane region = (StackPane)item.getNode();
 
                         //Add tooltips to expand information about a task
-                        Tooltip.install(region,new Tooltip("Task: " + getLabel(item.getExtraValue()) + "\n Weight: " + getWeight(item.getExtraValue()) + "\n Start time: " + getStartTime(item.getExtraValue()) + "\n Finish time: " + getEndTime(item.getExtraValue())));
+                        Tooltip.install(region,new Tooltip(" Task: " + getLabel(item.getExtraValue()) + "\n Weight: " + getWeight(item.getExtraValue()) + "\n Start time: " + getStartTime(item.getExtraValue()) + "\n Finish time: " + getEndTime(item.getExtraValue())));
 
                         //region.getChildren().add(label);
                         if (region.getShape() == null) {

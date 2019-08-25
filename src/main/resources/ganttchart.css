@@ -1,13 +1,50 @@
 .status-red {
     -fx-background-color:rgba(128,0,0,0.7);
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+
+}
+.status-red:hover{
+    -fx-background-color: rgba(128,0,0,1);
+    -fx-border-width: 1px;
+    -fx-border-color: red;
+
 }
 .status-green {
     -fx-background-color:rgba(0,128,0,0.7);
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+
+}
+
+.status-green:hover{
+    -fx-background-color: rgba(0,128,0,1);
+    -fx-border-width: 1px;
+    -fx-border-color: red;
 }
 .status-blue {
-    -fx-background-color: rgba(55, 179, 252, 128);
+    -fx-background-color: rgba(55, 179, 252, 0.7);
     -fx-border-width: 1px;
-    -fx-border-color: #2a2a2a;
+    -fx-border-color: white;
+}
+
+.status-blue:hover{
+    -fx-background-color: rgba(55, 179, 252, 1);
+    -fx-border-width: 1px;
+    -fx-border-color: red;
+}
+
+.status-yellow {
+    -fx-background-color: rgba(237, 239, 41, 0.7);
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+
+}
+
+.status-yellow:hover{
+    -fx-background-color: rgb(239, 241, 24);
+    -fx-border-width: 1px;
+    -fx-border-color: red;
 }
 
 .chart-horizontal-grid-lines {

@@ -53,9 +53,24 @@ public class GanntChart {
         String machine;
         int currentSeries = 0;
         for (Processor processor : state.getProcessors()) {
-            for (Task task : processor.getAllTasks()) {
+            String styleclass;
+            switch (processor.getId()) { // set up colors for different processors
+                case 0:
+                    styleclass = "status-red";
+                    break;
+                case 1:
+                    styleclass = "status-red";
+                    break;
+                case 2:
+                    styleclass = "status-blue";
+                    break;
+                default:
+                    styleclass = "status-blue";
+                    break;
+            }
+                for (Task task : processor.getAllTasks()) {
                 Model.Node node = task.getNode();
-                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", node.getName(), node.getWeight(), task.getStartTime(), task.getEndTime())));
+                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), styleclass, node.getName(), node.getWeight(), task.getStartTime(), task.getEndTime())));
             }
             currentSeries++;
         }
@@ -82,9 +97,24 @@ public class GanntChart {
     public void updateGantt(State state){
         int currentSeries = 0;
         for (Processor processor : state.getProcessors()) {
+            String styleclass;
+            switch (processor.getId()) { // set up colors for different processors
+                case 0:
+                    styleclass = "status-green";
+                    break;
+                case 1:
+                    styleclass = "status-yellow";
+                    break;
+                case 2:
+                    styleclass = "status-blue";
+                    break;
+                default:
+                    styleclass = "status-red";
+                    break;
+            }
             for (Task task : processor.getAllTasks()) {
                 Model.Node node = task.getNode();
-                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), "status-green", node.getName(), node.getWeight(), task.getStartTime(), task.getEndTime())));
+                processorSeries.get(currentSeries).getData().add(new XYChart.Data(task.getStartTime(), processors.get(currentSeries), new ExtraData(task.getEndTime() - task.getStartTime(), styleclass, node.getName(), node.getWeight(), task.getStartTime(), task.getEndTime())));
             }
             currentSeries++;
         }
