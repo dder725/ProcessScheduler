@@ -302,10 +302,4 @@ public class State implements Comparable<State>{
         es = Math.max(es,idleTimeFunction.calculate(this));
         return es;
     }
-
-
-
-
-
-
 }
