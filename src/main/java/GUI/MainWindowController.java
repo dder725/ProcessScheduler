@@ -16,16 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -36,6 +27,9 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+Controller class for the main GUI window
+ */
 public class MainWindowController implements Initializable, InvalidationListener {
     private static RuntimeMonitor _monitor;
     private Timer timer;
@@ -76,6 +70,8 @@ public class MainWindowController implements Initializable, InvalidationListener
     private Label optimalTimeLabel;
     @FXML
     private javafx.scene.image.ImageView ImageView;
+    @FXML
+    private Label statusLabel;
 
 
     public MainWindowController(){
@@ -94,7 +90,10 @@ public class MainWindowController implements Initializable, InvalidationListener
     public void startAlgorithm(){
 //        if(!_runtimeMonitor.isFinished()){
         _runtimeMonitor.resetRuntimeMonitor();
+        statusLabel.setText("RUNNING...");
+        statusLabel.setVisible(true);
             timer = new Timer();
+            long startTime = System.currentTimeMillis();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -105,7 +104,9 @@ public class MainWindowController implements Initializable, InvalidationListener
                     long usedMemory = totalMemory - freeMemory;
 
                     //Set up a timer
-                    double timeElapsed = _runtimeMonitor.getElapsedTime();
+                    double timeElapsed = System.currentTimeMillis() - startTime;
+                    timeElapsed = timeElapsed / 1000.0;
+                    System.out.println(timeElapsed);
                     memoryFreeLabel.setText((freeMemory)  / (1024l * 1024l) + "Mb");
                     memoryTotalLabel.setText(totalMemory / (1024l * 1024l) + "Mb");
                     memoryUsedLabel.setText(usedMemory / (1024l * 1024l) + "Mb");
@@ -130,11 +131,7 @@ public class MainWindowController implements Initializable, InvalidationListener
         };
         Thread thread = new Thread(task);
         thread.start();
-//    } else { //Do not allow the user to run the program twice
-//            Alert alert = new Alert(Alert.AlertType.WARNING, "The optimal schedule has already been produced. Please relaunch the program using new parameters to find a schedule for a different graph", ButtonType.OK);
-//            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-//            alert.show();}
-    }
+}
 
 /*
 Build the initial Gantt Chart
@@ -145,12 +142,16 @@ Build the initial Gantt Chart
         GanttPane.setCenter(gannt.getPane());
     }
 
-    public void updateGantt(){
+    public void updateGUI(){
         gannt.clear();
         gannt.updateGantt(_runtimeMonitor.getOptimal());
         optimalSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getTotalOptimalStates()));
         optimalTimeLabel.setText(Integer.toString(_runtimeMonitor.getOptimalScheduleCost()));
         schedulesFoundLabel.setText(Integer.toString(_runtimeMonitor.getStatesExplored()));
+        duplicateSchedulesLabel.setText(Integer.toString(_runtimeMonitor.getStatesDeleted()));
+        if(_runtimeMonitor.isFinished()){
+            statusLabel.setText("FINISHED");
+        }
     }
 
 
@@ -176,18 +177,21 @@ Build the initial Gantt Chart
             }
         });
 
+        //Listen to the changes in the Runtime Monitor
         _runtimeMonitor.addListener(this);
 
+        //Run graph visualization in a separate thread
         Platform.runLater(() -> {
             initializeGantt();
             Thread thread = new Thread(){
                 public void run(){
                     try {
-                        Graphviz.fromFile(new File(_mainApp.getPath())).width(900).render(Format.PNG).toFile(new File("ex2.png"));
+                        Graphviz.fromFile(new File(_mainApp.getPath())).width(900).render(Format.PNG).toFile(new File( "output.png"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Image img = new Image("ex2.png");
+
+                    Image img = new Image("file:output.png");
                     ImageView.setImage(img);
                 }
             };
@@ -201,10 +205,10 @@ Build the initial Gantt Chart
     @Override
     public void invalidated(Observable observable) {
         if(!_runtimeMonitor.isFinished()) {
-            Platform.runLater(this::updateGantt);
+            Platform.runLater(this::updateGUI);
         } else {
-            Platform.runLater(this::updateGantt);
-            //Stop the timer
+            Platform.runLater(this::updateGUI);
+            //Stop the timer if the algorithm had finished
             timer.cancel();
             timer.purge();}
     }

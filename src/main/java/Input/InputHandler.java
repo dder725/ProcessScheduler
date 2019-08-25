@@ -13,7 +13,7 @@ public class InputHandler
 
 //	Optional argument
 	private Boolean algorithm = true;
-	private String numberOfCores = "8";
+	private String numberOfCores = "1";
 	private Boolean visualise = false;
 	private String outputFileName = "INPUT-output";
 		public InputHandler(String[] args){
@@ -24,30 +24,16 @@ public class InputHandler
 				temp = args[i];
 				if(temp.equals("-p")){
 					this.numberOfCores = args[i+1];
-					System.out.println("numberOfCores:"+numberOfCores);
-//					i++;
 				}
 				else if(temp.equals("-v")){
 					this.visualise = true;
-//					i++;
 				}else if(temp.equals("-o")){
 					this.outputFileName = args[i+1];
-//					i++;
 				}else if(temp.equals(("-a"))){
 					this.algorithm = false;
-//					i++;
 				}
 			}
             }
-
-			
-//
-//			System.out.println("the input file name is: "+this.file);
-//			System.out.println("The number of processor specified is:"+this.numberOfProcessors);
-//			System.out.println("The nuberOfCore is: "+ this.numberOfCores);
-//			System.out.println("Visualise options is: "+this.visualise);
-//			System.out.println("The outputFileName is: "+this.outputFileName);
-
 
 	public int getNumberOfProcessors() {
 			return Integer.parseInt(this.numberOfProcessors);
