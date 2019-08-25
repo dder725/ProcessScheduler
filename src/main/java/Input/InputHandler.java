@@ -2,6 +2,9 @@ package Input;
 
 
 import GUI.MainWindow;
+import Schedule.AStarScheduler;
+import Schedule.Algorithm;
+import Schedule.BABScheduler;
 
 public class InputHandler
 { 
@@ -9,6 +12,7 @@ public class InputHandler
 	private String numberOfProcessors;
 
 //	Optional argument
+	private Boolean algorithm = true;
 	private String numberOfCores = "8";
 	private Boolean visualise = true;
 	private String outputFileName = "INPUT-output";
@@ -17,7 +21,7 @@ public class InputHandler
 			this.numberOfProcessors = args[1];
 			String temp;
 
-			for(int i=2; i < args.length;i++){
+			for(int i=0; i < args.length;i++){
 				temp = args[i];
 				if(temp.equals("-p")){
 					this.numberOfCores = args[i+1];
@@ -29,6 +33,9 @@ public class InputHandler
 				}else if(temp.equals("-o")){
 					this.outputFileName = args[i+1];
 //					i++;
+				}else if(temp.equals(("-a"))){
+					this.algorithm = false;
+					i++;
 				}
 			}
             }
@@ -60,5 +67,12 @@ public class InputHandler
 
 	public boolean toVisualize(){
 		return this.visualise;
+	}
+
+	public Algorithm getAlgorithm(){
+			Algorithm defau = new AStarScheduler(TaskSchedule.getInstance().getGraph(),this);
+			Algorithm BAB = new BABScheduler(TaskSchedule.getInstance().getGraph(),this);
+			Algorithm finalAlgorithm = this.algorithm? defau:BAB;
+			return finalAlgorithm;
 	}
 }

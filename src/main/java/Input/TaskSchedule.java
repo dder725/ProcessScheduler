@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import GUI.MainWindow;
 import Model.*;
 import Parser.DotFileParser;
+import Schedule.Algorithm;
 import Schedule.RuntimeMonitor;
 import Schedule.AStarScheduler;
 import Model.State;
@@ -12,7 +13,7 @@ import Output.Output;
 import javafx.application.Application;
 
 public class TaskSchedule {
-	private Graph graph;
+	private static Graph graph;
 	private Boolean Done = true ;
 	private static State _finalSchedule;
 	private static InputHandler input;
@@ -41,7 +42,7 @@ public class TaskSchedule {
 		String[] MockInput = new String[2];
 		MockInput[0] = str;
 		MockInput[1] = str1;
-		input = new InputHandler(MockInput);
+		input = new InputHandler(args);
 
 		try {
 			if(input.toVisualize()) {
@@ -56,8 +57,9 @@ public class TaskSchedule {
 
 		public static void runAlgorithm(InputHandler input) throws FileNotFoundException {
 			DotFileParser parser = new DotFileParser();
-			Graph g = parser.parseDotFile("/home/twelve_koalas/IdeaProjects/ProcessScheduler/src/main/resources/Nodes_11_OutTree.dot");
-			AStarScheduler sch = new AStarScheduler(g,input);
+			Graph g = parser.parseDotFile(input.getFilePath());
+			graph = g;
+			Algorithm sch = input.getAlgorithm();
 			State finalState =  sch.schedule();
 			System.out.println("The scheduled node of finalState: "+finalState.getscheduledNodes().size());
 			_finalSchedule = finalState;
@@ -70,6 +72,9 @@ public class TaskSchedule {
 
 		public static InputHandler getInput(){
 			return input;
+		}
+		public static Graph getGraph(){
+			return graph;
 		}
 }
 
